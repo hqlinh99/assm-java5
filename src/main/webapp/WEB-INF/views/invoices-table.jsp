@@ -13,7 +13,7 @@
 <body>
 <!--begin::Main-->
 <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
-    <c:if test="${nhanVien.chucVu}">
+    <c:if test="${currentUser.chucVu}">
         <!--begin::Content wrapper-->
         <div class="d-flex flex-column flex-column-fluid">
 

@@ -13,7 +13,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class NhanVien {
+public class NhanVien implements Cloneable{
 
     private String id;
 
@@ -37,4 +37,14 @@ public class NhanVien {
     @NotNull(message = "Vui lòng chọn trạng thái!")
     private Boolean trangThai;
 
+    @Override
+    public NhanVien clone() {
+        try {
+            NhanVien clone = (NhanVien) super.clone();
+            // TODO: copy mutable state here, so the clone can't change the internals of the original
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
 }

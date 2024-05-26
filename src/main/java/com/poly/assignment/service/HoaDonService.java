@@ -6,6 +6,7 @@ import com.poly.assignment.entity.KhachHang;
 import com.poly.assignment.entity.NhanVien;
 import com.poly.assignment.util.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
@@ -23,10 +24,15 @@ public class HoaDonService {
 
     private NhanVienService nhanVienService;
     private KhachHangService khachHangService;
+    private HoaDonChiTietService hoaDonChiTietService;
 
-    public HoaDonService(NhanVienService nhanVienService, KhachHangService khachHangService) {
+    private @Autowired AuthService authService;
+
+    private @Autowired GioHangService gioHangService;
+    public HoaDonService(NhanVienService nhanVienService, KhachHangService khachHangService, @Lazy HoaDonChiTietService hoaDonChiTietService) {
         this.nhanVienService = nhanVienService;
         this.khachHangService = khachHangService;
+        this.hoaDonChiTietService = hoaDonChiTietService;
         listHoaDon.add(new HoaDon("1", nhanVienService.findById("4"), khachHangService.findById("1"), new Date(), true));
         listHoaDon.add(new HoaDon("2", nhanVienService.findById("2"), khachHangService.findById("3"), new Date(), true));
         listHoaDon.add(new HoaDon("3", nhanVienService.findById("3"), khachHangService.findById("3"), new Date(), true));
@@ -61,15 +67,26 @@ public class HoaDonService {
 
     public void create(HoaDon hoaDon) {
         hoaDon.setId(UUID.randomUUID().toString());
-        hoaDon.setNhanVien(nhanVienService.findById(hoaDon.getNhanVien().getId()));
+        hoaDon.setNhanVien(authService.getCurrentUser());
         hoaDon.setKhachHang(khachHangService.findById(hoaDon.getKhachHang().getId()));
+        hoaDon.setTrangThai(true);
+
+        gioHangService.gioHangList.forEach(item -> {
+            HoaDonChiTiet hoaDonChiTiet = new HoaDonChiTiet();
+            hoaDonChiTiet.setHoaDon(hoaDon);
+            hoaDonChiTiet.setSanPhamChiTiet(item.getSanPhamChiTiet());
+            hoaDonChiTiet.setSoLuong(item.getQuantity());
+            hoaDonChiTiet.setDonGia(item.getSanPhamChiTiet().getDonGia());
+            hoaDonChiTietService.create(hoaDonChiTiet);
+        });
+        gioHangService.deleteAll();
         listHoaDon.add(hoaDon);
     }
 
     public void update(HoaDon hoaDon) {
         for (int i = 0; i < listHoaDon.size(); i++) {
             if (listHoaDon.get(i).getId().equals(hoaDon.getId())) {
-                hoaDon.setNhanVien(nhanVienService.findById(hoaDon.getNhanVien().getId()));
+                hoaDon.setNhanVien(authService.getCurrentUser());
                 hoaDon.setKhachHang(khachHangService.findById(hoaDon.getKhachHang().getId()));
                 listHoaDon.set(i, hoaDon);
             }

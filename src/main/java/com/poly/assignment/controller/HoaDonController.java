@@ -1,19 +1,16 @@
 package com.poly.assignment.controller;
 
-import com.poly.assignment.dto.OrderRequestDTO;
-import com.poly.assignment.entity.HoaDon;
-import com.poly.assignment.entity.HoaDonChiTiet;
 import com.poly.assignment.entity.HoaDon;
 import com.poly.assignment.service.*;
 import com.poly.assignment.util.PageUtil;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
@@ -34,6 +31,7 @@ public class HoaDonController {
     @GetMapping("/checkout")
     public String checkoutPage(Model model) {
         model.addAttribute("cart", gioHangService.findAll());
+        model.addAttribute("customers", khachHangService.findAll("true"));
         return "/checkout.jsp";
     }
 
@@ -61,7 +59,7 @@ public class HoaDonController {
     @PostMapping("/invoices/create")
     public String createOrder(
             @ModelAttribute("hoaDon") HoaDon hoaDon,
-            @RequestParam("id") String id) {
+            @RequestParam(value = "id", required = false) String id) {
         if (id != null && !id.isBlank()) {
             hoaDonService.update(hoaDon);
         } else hoaDonService.create(hoaDon);
@@ -74,8 +72,9 @@ public class HoaDonController {
                                 @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
                                 @RequestParam(value = "pageSize", required = false, defaultValue = "5") Integer pageSize,
                                 Model model) {
-        if (id != null) {
-            model.addAttribute("hoaDon", hoaDonService.findById(id));
+        HoaDon hoaDon = hoaDonService.findById(id);
+        if (hoaDon != null) {
+            model.addAttribute("hoaDon", hoaDon);
             model.addAttribute("invoiceDetails", hoaDonChiTietService.findAllHoaDonChiTietByHoaDon(id));
             model.addAttribute("productDetails", sanPhamChiTietService.findAll("true"));
             Page<HoaDon> sanPhamPage = PageUtil.createPage(hoaDonService.findAll("all"), page, pageSize);
