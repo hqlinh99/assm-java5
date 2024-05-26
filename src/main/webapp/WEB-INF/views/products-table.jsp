@@ -334,6 +334,12 @@
                                                     <!--begin::Menu item-->
                                                     <div class="menu-item px-3">
                                                         <a href="/products/update?pid=${product.id}"
+                                                           class="menu-link px-3">Biến thể</a>
+                                                    </div>
+                                                    <!--end::Menu item-->
+                                                    <!--begin::Menu item-->
+                                                    <div class="menu-item px-3">
+                                                        <a href="/products/update?pid=${product.id}"
                                                            class="menu-link px-3">Sửa thông tin</a>
                                                     </div>
                                                     <!--end::Menu item-->
