@@ -239,15 +239,15 @@
                                                         <!--begin::Thumbnail-->
                                                         <a href="apps/ecommerce/catalog/edit-product.html"
                                                            class="symbol symbol-50px">
-                                                    <span class="symbol-label"
-                                                          style="background-image:url('${invoice.sanPhamChiTiet.hinhAnh}');"></span>
+                                                            <span class="symbol-label"
+                                                                  style="background-image:url('${invoice.sanPhamChiTiet.hinhAnh}');"></span>
                                                         </a>
                                                         <!--end::Thumbnail-->
                                                         <div class="ms-5">
                                                             <!--begin::Product detail-->
                                                             <select class="form-select" data-control="select2"
-                                                                    data-placeholder="Chọn khách hàng"
-                                                                    name="khachHang.id">
+                                                                    data-placeholder="Chọn sản phẩm chi tiết"
+                                                                    onchange="location.href='/update-product-detail-in-invoice-detail?iid=${hoaDon.id}&idid=${invoiceDetail.id}&pdid='+this.value">
                                                                 <c:forEach items="${productDetails}"
                                                                            var="productDetail">
                                                                     <option value="${productDetail.id}"${invoiceDetail.sanPhamChiTiet.id == productDetail.id ? "selected" : ""}>
@@ -263,7 +263,7 @@
                                                 <td class="pe-0">
                                                     <div class="position-relative w-md-100px mx-auto">
                                                         <!--begin::Decrease control-->
-                                                        <button onclick="location.href='/decrease-quantity-in-cart-item?cid=${cartItem.id}'"
+                                                        <button onclick="location.href='/decrease-quantity-in-invoice-detail-${hoaDon.id}?idid=${invoiceDetail.id}'"
                                                                 type="button"
                                                                 class="btn btn-icon btn-active-color-gray-700 position-absolute translate-middle-y top-50 start-0"
                                                             ${invoiceDetail.soLuong < 2 ? "disabled" : ""}>
@@ -280,7 +280,7 @@
                                                         <!--end::Input control-->
 
                                                         <!--begin::Increase control-->
-                                                        <button onclick="location.href='/increase-quantity-in-cart-item?cid=${cartItem.id}'"
+                                                        <button onclick="location.href='/increase-quantity-in-invoice-detail-${hoaDon.id}?idid=${invoiceDetail.id}'"
                                                                 type="button"
                                                                 class="btn btn-icon btn-active-color-gray-700 position-absolute translate-middle-y top-50 end-0">
                                                             <i class="ki-outline ki-plus-square fs-1"></i>
@@ -296,8 +296,8 @@
                                                 </td>
                                                 <td class="text-end pe-0" data-order="Scheduled">
                                                     <!--begin::Badges-->
-                                                    <div class="badge ${invoice.trangThai ? "badge-light-primary" : "badge-light-danger"}">
-                                                            ${invoice.trangThai ? "Hoạt động" : "Bị khoá"}
+                                                    <div onclick="location.href='/update-status-invoice-detail?iid=${hoaDon.id}&idid=${invoiceDetail.id}'" class="badge cursor-pointer ${invoice.trangThai ? "badge-light-primary" : "badge-light-danger"}">
+                                                            ${invoiceDetail.trangThai ? "Hoạt động" : "Bị khoá"}
                                                     </div>
                                                     <!--end::Badges-->
                                                 </td>
@@ -327,7 +327,7 @@
         </div>
         <!--end::Content wrapper-->
     </c:if>
-    <jsp:include page="403.jsp" />
+    <jsp:include page="403.jsp"/>
     <!--begin::Footer-->
     <div id="kt_app_footer" class="app-footer">
         <!--begin::Footer container-->

@@ -20,7 +20,7 @@ public class MauSacController {
 
     private final MauSacService mauSacService;
 
-    @GetMapping("/products/colors")
+    @GetMapping("/colors/table")
     public String pTable(@ModelAttribute("mauSac") MauSac mauSac,
                          @RequestParam(value = "key", required = false) Integer key,
                          @RequestParam(value = "status", required = false, defaultValue = "all") String status,
@@ -47,7 +47,7 @@ public class MauSacController {
                             Model model) {
         Page<MauSac> mauSacPage = PageUtil.createPage(mauSacService.findByKey(key), page, pageSize);
         model.addAttribute("colors", mauSacPage.getContent());
-        return "redirect:/products/colors";
+        return "redirect:/colors/table";
     }
 
     @ModelAttribute("status")
@@ -81,7 +81,7 @@ public class MauSacController {
             mauSacService.create(mauSac);
         }
 
-        return "redirect:/products/colors";
+        return "redirect:/colors/table";
     }
 
     @GetMapping("/color/update")
@@ -102,7 +102,7 @@ public class MauSacController {
     @GetMapping("/colors/delete")
     public String deleteColor(@RequestParam("id") String id) {
         mauSacService.delete(id);
-        return "redirect:/products/colors";
+        return "redirect:/colors/table";
     }
 
 }

@@ -16,7 +16,10 @@ public class HoaDonChiTietService {
 
     List<HoaDonChiTiet> listHoaDonChiTiet = new ArrayList<>();
 
+    private SanPhamChiTietService sanPhamChiTietService;
+
     public HoaDonChiTietService(HoaDonService hoaDonService, SanPhamChiTietService sanPhamChiTietService) {
+        this.sanPhamChiTietService = sanPhamChiTietService;
         listHoaDonChiTiet.add(new HoaDonChiTiet("1", hoaDonService.findById("1"), sanPhamChiTietService.findById("1"), 2, 50.0, true));
         listHoaDonChiTiet.add(new HoaDonChiTiet("2", hoaDonService.findById("2"), sanPhamChiTietService.findById("2"), 1, 100.0, true));
         listHoaDonChiTiet.add(new HoaDonChiTiet("3", hoaDonService.findById("3"), sanPhamChiTietService.findById("3"), 1, 150.0, true));
@@ -73,4 +76,35 @@ public class HoaDonChiTietService {
         listHoaDonChiTiet.removeAll(deList);
     }
 
+    public void decreaseQuantity(String idid) {
+        for (HoaDonChiTiet hoaDonChiTiet: listHoaDonChiTiet) {
+            if (hoaDonChiTiet.getId().equals(idid)) {
+                hoaDonChiTiet.setSoLuong(hoaDonChiTiet.getSoLuong() - 1);
+            }
+        }
+    }
+
+    public void increaseQuantity(String idid) {
+        for (HoaDonChiTiet hoaDonChiTiet: listHoaDonChiTiet) {
+            if (hoaDonChiTiet.getId().equals(idid)) {
+                hoaDonChiTiet.setSoLuong(hoaDonChiTiet.getSoLuong() + 1);
+            }
+        }
+    }
+
+    public void updateProductDetail(String idid, String pdid) {
+        for (HoaDonChiTiet hoaDonChiTiet: listHoaDonChiTiet) {
+            if (hoaDonChiTiet.getId().equals(idid)) {
+                hoaDonChiTiet.setSanPhamChiTiet(sanPhamChiTietService.findById(pdid));
+            }
+        }
+    }
+
+    public void updateStatus(String idid) {
+        for (HoaDonChiTiet hoaDonChiTiet: listHoaDonChiTiet) {
+            if (hoaDonChiTiet.getId().equals(idid)) {
+                hoaDonChiTiet.setTrangThai(!hoaDonChiTiet.getTrangThai());
+            }
+        }
+    }
 }

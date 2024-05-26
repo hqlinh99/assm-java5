@@ -123,7 +123,8 @@
                             Ngôn ngữ
                             <span class="fs-8 rounded bg-light px-3 py-2 position-absolute translate-middle-y top-50 end-0">
                                 Tiếng việt
-                                <img class="w-15px h-15px rounded-1 ms-2" src="/public/assets/media/flags/united-states.svg"
+                                <img class="w-15px h-15px rounded-1 ms-2"
+                                     src="/public/assets/media/flags/united-states.svg"
                                      alt="">
                             </span>
                         </span>
@@ -300,7 +301,8 @@
                     <!--begin::Col-->
                     <div class="col mb-4">
                         <!--begin::Link-->
-                        <a href="/products/table"
+                        <a href="/products/table" data-kt-menu-trigger="{default: 'click', lg: 'hover'}"
+                           data-kt-menu-attach="parent" data-kt-menu-placement="bottom-start"
                            class="btn btn-icon btn-outline btn-bg-light btn-active-light-primary btn-flex flex-column flex-center w-lg-90px h-lg-90px w-70px h-70px border-gray-200"
                            data-kt-button="true">
                             <!--begin::Icon-->
@@ -314,6 +316,63 @@
                             <!--end::Label-->
                         </a>
                         <!--end::Link-->
+                        <div class="menu menu-sub menu-sub-dropdown menu-column w-100 w-sm-350px" data-kt-menu="true"
+                             style="">
+                            <!--begin::Card-->
+                            <div class="p-5">
+                                <!--begin::Scroll-->
+                                <div class="mh-450px scroll-y me-n5 pe-5">
+                                    <!--begin::Row-->
+                                    <div class="row g-2">
+                                        <!--begin::Col-->
+                                        <div class="col-4">
+                                            <!--begin::Link-->
+                                            <a href="/sizes/table"
+                                               data-kt-menu-trigger="{default: 'click', lg: 'hover'}"
+                                               data-kt-menu-attach="parent" data-kt-menu-placement="bottom-start"
+                                               class="btn btn-icon btn-size btn-bg-light btn-active-light-primary btn-flex flex-column flex-center w-lg-90px h-lg-90px w-70px h-70px border-gray-200"
+                                               data-kt-button="true">
+                                                <!--begin::Icon-->
+                                                <span class="mb-2">
+                                                    <i class="ki-outline ki-size fs-1"></i>
+                                                </span>
+                                                <!--end::Icon-->
+
+                                                <!--begin::Label-->
+                                                <span class="fs-7 fw-bold">Kích thước</span>
+                                                <!--end::Label-->
+                                            </a>
+                                            <!--end::Link-->
+                                        </div>
+                                        <!--end::Col-->
+                                        <!--begin::Col-->
+                                        <div class="col-4">
+                                            <!--begin::Link-->
+                                            <a href="/colors/table"
+                                               data-kt-menu-trigger="{default: 'click', lg: 'hover'}"
+                                               data-kt-menu-attach="parent" data-kt-menu-placement="bottom-start"
+                                               class="btn btn-icon btn-outline btn-bg-light btn-active-light-primary btn-flex flex-column flex-center w-lg-90px h-lg-90px w-70px h-70px border-gray-200"
+                                               data-kt-button="true">
+                                                <!--begin::Icon-->
+                                                <span class="mb-2">
+                                                        <i class="ki-outline ki-color-swatch fs-1"></i>
+                                                    </span>
+                                                <!--end::Icon-->
+
+                                                <!--begin::Label-->
+                                                <span class="fs-7 fw-bold">Màu sắc</span>
+                                                <!--end::Label-->
+                                            </a>
+                                            <!--end::Link-->
+                                        </div>
+                                        <!--end::Col-->
+                                    </div>
+                                    <!--end::Row-->
+                                </div>
+                                <!--end::Scroll-->
+                            </div>
+                            <!--end::Card-->
+                        </div>
                     </div>
                     <!--end::Col-->
                     <!--begin::Col-->

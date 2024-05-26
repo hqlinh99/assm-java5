@@ -20,7 +20,7 @@ public class KichThuocController {
 
     private final KichThuocService kichThuocService;
 
-    @GetMapping("/products/sizes")
+    @GetMapping("/sizes/table")
     public String pTable(@ModelAttribute("kichThuoc") KichThuoc kichThuoc,
                          @RequestParam(value = "key", required = false) String key,
                          @RequestParam(value = "status", required = false, defaultValue = "all") String status,
@@ -47,7 +47,7 @@ public class KichThuocController {
                             Model model) {
         Page<KichThuoc> kichThuocPage = PageUtil.createPage(kichThuocService.findByKey(key), page, pageSize);
         model.addAttribute("sizes", kichThuocPage.getContent());
-        return "redirect:/products/sizes";
+        return "redirect:/sizes/table";
     }
 
     @ModelAttribute("status")
@@ -81,7 +81,7 @@ public class KichThuocController {
             kichThuocService.create(kichThuoc);
         }
 
-        return "redirect:/products/sizes";
+        return "redirect:/sizes/table";
     }
 
     @GetMapping("/size/update")
@@ -102,7 +102,7 @@ public class KichThuocController {
     @GetMapping("/sizes/delete")
     public String deleteSize(@RequestParam("id") String id) {
         kichThuocService.delete(id);
-        return "redirect:/products/sizes";
+        return "redirect:/sizes/table";
     }
 
 }

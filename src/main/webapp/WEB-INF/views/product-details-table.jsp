@@ -61,7 +61,7 @@
                             <!--begin::Form-->
                             <form:form id="kt_account_profile_details_form"
                                        class="form fv-plugins-bootstrap5 fv-plugins-framework"
-                                       action="/product-${sanPham.id}/details/create" method="post"
+                                       action="/product-${sanPham.id}/details/create?pdid=${sanPhamChiTiet.id}" method="post"
                                        modelAttribute="sanPhamChiTiet"
                                        enctype="multipart/form-data">
                                 <!--begin::Card body-->
@@ -255,7 +255,7 @@
                                             <div class="form-check form-check-danger form-check-solid">
                                                 <input class="form-check-input" name="trangThai" type="radio"
                                                        value="false"
-                                                       id="inactive" ${sanPham.trangThai == false ? "checked" : ""}/>
+                                                       id="inactive" ${sanPhamChiTiet.trangThai == false ? "checked" : ""}/>
                                                 <label class="form-check-label" for="inactive">
                                                     Bị khoá
                                                 </label>
@@ -269,12 +269,12 @@
                                         <!--end::Description-->
                                         <!--begin::Actions-->
                                         <div class="card-footer d-flex justify-content-end py-6 px-9">
-                                            <a href="/products/table" type="reset"
+                                            <a href="/product-${sanPham.id}/details-table" type="reset"
                                                class="btn btn-light btn-active-light-primary me-2">
                                                 Làm mới
                                             </a>
                                             <button type="submit" class="btn btn-primary"
-                                                    id="kt_account_profile_details_submit">Lưu sản phẩm
+                                                    id="kt_account_profile_details_submit">Lưu SPCT
                                             </button>
                                         </div>
                                         <!--end::Actions-->
@@ -400,8 +400,8 @@
                                             </td>
                                             <td class="text-end pe-0" data-order="Scheduled">
                                                 <!--begin::Badges-->
-                                                <div class="badge ${product.trangThai ? "badge-light-primary" : "badge-light-danger"}">
-                                                        ${product.trangThai ? "Hoạt động" : "Bị khoá"}
+                                                <div class="badge ${productDetail.trangThai ? "badge-light-primary" : "badge-light-danger"}">
+                                                        ${productDetail.trangThai ? "Hoạt động" : "Bị khoá"}
                                                 </div>
                                                 <!--end::Badges-->
                                             </td>
@@ -423,9 +423,9 @@
                                                     <!--end::Menu item-->
                                                     <!--begin::Menu item-->
                                                     <div class="menu-item px-3">
-                                                        <a href="/products/delete?pid=${productDetail.id}"
+                                                        <a href="/product-${sanPham.id}/details/delete?pdid=${productDetail.id}"
                                                            class="menu-link px-3"
-                                                           data-kt-ecommerce-product-filter="delete_row">Xoá sản phẩm
+                                                           data-kt-ecommerce-product-filter="delete_row">Xoá biến thể
                                                         </a>
                                                     </div>
                                                     <!--end::Menu item-->
@@ -439,7 +439,7 @@
                                 <!--end::Table-->
                                 <!--begin::Pagination-->
                                 <jsp:include page="/WEB-INF/components/pagination.jsp">
-                                    <jsp:param name="e" value="products"/>
+                                    <jsp:param name="e" value="product-${sanPham.id}/details"/>
                                 </jsp:include>
                                 <!--end::Pagination-->
                             </div>

@@ -79,16 +79,20 @@ public class SanPhamChiTietService {
 
     public void create(SanPhamChiTiet sanPhamChiTiet, String pid, MultipartFile file) throws IOException {
         sanPhamChiTiet.setId(UUID.randomUUID().toString());
-        sanPhamChiTiet.setSanPham(sanPhamService.findById(pid));
         sanPhamChiTiet.setHinhAnh(fileUploadService.uploadFile(file));
+        sanPhamChiTiet.setSanPham(sanPhamService.findById(pid));
+        sanPhamChiTiet.setMauSac(mauSacService.findById(sanPhamChiTiet.getMauSac().getId()));
+        sanPhamChiTiet.setKichThuoc(kichThuocService.findById(sanPhamChiTiet.getKichThuoc().getId()));
         listSanPhamChiTiet.add(sanPhamChiTiet);
     }
 
     public void update(SanPhamChiTiet sanPhamChiTiet, String pid, MultipartFile file) throws IOException {
         for (int i = 0; i < listSanPhamChiTiet.size(); i++) {
             if (listSanPhamChiTiet.get(i).getId().equals(sanPhamChiTiet.getId())) {
-                sanPhamChiTiet.setSanPham(sanPhamService.findById(pid));
                 sanPhamChiTiet.setHinhAnh(fileUploadService.uploadFile(file));
+                sanPhamChiTiet.setSanPham(sanPhamService.findById(pid));
+                sanPhamChiTiet.setMauSac(mauSacService.findById(sanPhamChiTiet.getMauSac().getId()));
+                sanPhamChiTiet.setKichThuoc(kichThuocService.findById(sanPhamChiTiet.getKichThuoc().getId()));
                 listSanPhamChiTiet.set(i, sanPhamChiTiet);
             }
         }

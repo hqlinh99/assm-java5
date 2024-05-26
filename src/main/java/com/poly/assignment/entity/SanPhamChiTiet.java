@@ -30,7 +30,6 @@ public class SanPhamChiTiet {
     @NotNull(message = "Vui lòng chọn màu sắc!")
     private MauSac mauSac;
 
-    @NotNull(message = "Vui lòng chọn sản phẩm!")
     private SanPham sanPham;
 
     @Min(value = 1, message = "Vui lòng nhập số lượng > 0")

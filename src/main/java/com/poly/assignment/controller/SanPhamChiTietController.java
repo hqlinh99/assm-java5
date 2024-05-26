@@ -29,19 +29,24 @@ public class SanPhamChiTietController {
 
     private final MauSacService mauSacService;
 
-    @GetMapping("/product-{pid}/details")
-    public String getAllProductDetailByProductId(@PathVariable("pid") String pid,
-                                                 @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-                                                 @RequestParam(value = "pageSize", required = false, defaultValue = "8") Integer pageSize,
-                                                 Model model) {
-        model.addAttribute("sanPham", sanPhamService.findById(pid));
+    @GetMapping("/product-{pid}/details/table")
+    public String productDetailPage(@PathVariable("pid") String pid,
+                                    @ModelAttribute("sanPhamChiTiet") SanPhamChiTiet sanPhamChiTiet,
+                                    @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+                                    @RequestParam(value = "pageSize", required = false, defaultValue = "8") Integer pageSize,
+                                    Model model) {
+        SanPham sanPham = sanPhamService.findById(pid);
+        if (sanPham == null) return "redirect:/products/table";
+        model.addAttribute("sanPham", sanPham);
+        model.addAttribute("sizes", kichThuocService.findAll("true"));
+        model.addAttribute("colors", mauSacService.findAll("true"));
         Page<SanPhamChiTiet> sanPhamChiTietPage = PageUtil.createPage(sanPhamChiTietService.findAllSanPhamChiTietBySanPhamId(pid), page, pageSize);
         model.addAttribute("productDetails", sanPhamChiTietPage.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("pageSize", pageSize);
         model.addAttribute("totalPages", sanPhamChiTietPage.getTotalPages());
         model.addAttribute("cart", gioHangService.findAll());
-        return "/product-details.jsp";
+        return "/product-details-table.jsp";
     }
 
     @GetMapping("/product-{pid}/details/search")
@@ -58,35 +63,16 @@ public class SanPhamChiTietController {
         return "redirect:/product-" + pid + "/details";
     }
 
-    @GetMapping("/product-{pid}/details-table")
-    public String productDetailPage(@PathVariable("pid") String pid,
-                                                 @ModelAttribute("sanPhamChiTiet") SanPhamChiTiet sanPhamChiTiet,
-                                                 @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-                                                 @RequestParam(value = "pageSize", required = false, defaultValue = "8") Integer pageSize,
-                                                 Model model) {
-        SanPham sanPham = sanPhamService.findById(pid);
-        if (sanPham == null) return "redirect:/products/table";
-        model.addAttribute("sanPham", sanPhamService.findById(pid));
-        Page<SanPhamChiTiet> sanPhamChiTietPage = PageUtil.createPage(sanPhamChiTietService.findAllSanPhamChiTietBySanPhamId(pid), page, pageSize);
-        model.addAttribute("productDetails", sanPhamChiTietPage.getContent());
-        model.addAttribute("currentPage", page);
-        model.addAttribute("pageSize", pageSize);
-        model.addAttribute("totalPages", sanPhamChiTietPage.getTotalPages());
-        model.addAttribute("cart", gioHangService.findAll());
-        return "/product-details-table.jsp";
-    }
-
     @GetMapping("/product-{pid}/details-update")
     public String productDetailUpdatePage(@PathVariable("pid") String pid,
-                                    @RequestParam(value = "pdid", required = false) String pdid,
-                                    @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-                                    @RequestParam(value = "pageSize", required = false, defaultValue = "8") Integer pageSize,
-                                    Model model) {
+                                          @RequestParam(value = "pdid", required = false) String pdid,
+                                          @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+                                          @RequestParam(value = "pageSize", required = false, defaultValue = "8") Integer pageSize,
+                                          Model model) {
         SanPham sanPham = sanPhamService.findById(pid);
         SanPhamChiTiet spct = sanPhamChiTietService.findById(pdid);
         if (sanPham == null) return "redirect:/products/table";
-        else
-            if (spct == null) return "redirect:/product-" + pid + "/details";
+        else if (spct == null) return "redirect:/product-" + pid + "/details/table";
 
         model.addAttribute("cart", gioHangService.findAll());
         model.addAttribute("sanPham", sanPham);
@@ -111,22 +97,36 @@ public class SanPhamChiTietController {
                                 @RequestParam(value = "pageSize", required = false, defaultValue = "5") Integer pageSize,
                                 Model model) throws IOException {
         if (result.hasErrors()) {
+            SanPham sanPham = sanPhamService.findById(pid);
+            if (sanPham == null) return "redirect:/products/table";
+            model.addAttribute("sanPham", sanPham);
+            model.addAttribute("sizes", kichThuocService.findAll("true"));
+            model.addAttribute("colors", mauSacService.findAll("true"));
             Page<SanPhamChiTiet> sanPhamChiTietPage = PageUtil.createPage(sanPhamChiTietService.findAllSanPhamChiTietBySanPhamId(pid), page, pageSize);
-            model.addAttribute("products", sanPhamChiTietPage.getContent());
+            model.addAttribute("productDetails", sanPhamChiTietPage.getContent());
             model.addAttribute("currentPage", page);
             model.addAttribute("pageSize", pageSize);
             model.addAttribute("totalPages", sanPhamChiTietPage.getTotalPages());
-            return "/products-table.jsp";
+            model.addAttribute("cart", gioHangService.findAll());
+            return "/product-details-table.jsp";
         }
 
-        if (pid != null && !pid.isBlank()) {
+        if (pdid != null && !pdid.isBlank()) {
             sanPhamChiTiet.setId(pdid);
-            sanPhamChiTietService.update(sanPhamChiTiet, pid,file);
+            sanPhamChiTietService.update(sanPhamChiTiet, pid, file);
         } else {
-            sanPhamChiTietService.create(sanPhamChiTiet, pid,file);
+            sanPhamChiTietService.create(sanPhamChiTiet, pid, file);
         }
 
-        return "redirect:/products/table";
+        return "redirect:/product-" + pid + "/details/table";
+    }
+
+    @GetMapping("/product-{pid}/details/delete")
+    public String deleteProduct(@PathVariable("pid") String pid,
+                                @RequestParam("pdid") String pdid) {
+        sanPhamChiTietService.delete(pdid);
+
+        return "redirect:/product-" + pid + "/details/table";
     }
 
 }
