@@ -49,4 +49,19 @@ public class SanPhamChiTietController {
         return "redirect:/product-" + pid + "/details";
     }
 
+    @GetMapping("/product-{pid}/details-table")
+    public String productDetailPage(@PathVariable("pid") String pid,
+                                                 @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+                                                 @RequestParam(value = "pageSize", required = false, defaultValue = "8") Integer pageSize,
+                                                 Model model) {
+        model.addAttribute("sanPham", sanPhamService.findById(pid));
+        Page<SanPhamChiTiet> sanPhamChiTietPage = PageUtil.createPage(sanPhamChiTietService.findAllSanPhamChiTietBySanPhamId(pid), page, pageSize);
+        model.addAttribute("productDetails", sanPhamChiTietPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("pageSize", pageSize);
+        model.addAttribute("totalPages", sanPhamChiTietPage.getTotalPages());
+        model.addAttribute("cart", gioHangService.findAll());
+        return "/product-details-table.jsp";
+    }
+
 }
