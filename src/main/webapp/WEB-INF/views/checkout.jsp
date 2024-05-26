@@ -45,8 +45,8 @@
             <!--begin::Content container-->
             <div id="kt_app_content_container" class="app-container container-xxl">
                 <!--begin::Form-->
-                <form id="kt_ecommerce_edit_order_form" class="form d-flex flex-column flex-lg-row"
-                      data-kt-redirect="apps/ecommerce/sales/listing.html">
+                <form:form id="kt_ecommerce_edit_order_form" class="form d-flex flex-column flex-lg-row"
+                      action="/invoices/create" modelAttribute="hoaDon">
 
                     <!--begin::Main column-->
                     <div class="d-flex flex-column flex-lg-row-fluid gap-7 gap-lg-10 mb-7 me-7">
@@ -154,10 +154,11 @@
                                class="btn btn-light me-5">Huỷ</a>
                             <!--end::Button-->
                             <!--begin::Button-->
-                            <button onclick="location.href='/checkout'" type="submit" id="kt_ecommerce_edit_order_submit" class="btn btn-primary" ${cart.size() == 0 ? "disabled" : ""}>
+                            <button type="submit" id="kt_ecommerce_edit_order_submit" class="btn btn-primary" ${cart.size() == 0 ? "disabled" : ""}>
                                 <span class="indicator-label">Mua hàng</span>
                                 <span class="indicator-progress">Vui lòng đợi...
-													<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                </span>
                             </button>
                             <!--end::Button-->
                         </div>
@@ -217,7 +218,7 @@
                         <!--end::Order details-->
                     </div>
                     <!--end::Aside column-->
-                </form>
+                </form:form>
                 <!--end::Form-->
             </div>
             <!--end::Content container-->

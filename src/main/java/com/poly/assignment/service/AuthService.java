@@ -33,7 +33,7 @@ public class AuthService {
             if (!nhanVien.getTrangThai()) return "Tài khoản đã bị vô hiệu hoá!";
 
             if (nhanVien.getTenDangNhap().equals(auth.getUsername()) && nhanVien.getMatKhau().equals(auth.getPassword())) {
-                saveCurrentUser(nhanVien);
+                saveCurrentUser(nhanVien.clone());
                 return null;
             }
         }

@@ -57,6 +57,9 @@ public class GeneralController {
     @PostMapping("/login")
     public String login(@Valid @ModelAttribute("auth") Auth auth, BindingResult bindingResult, Model model) throws JsonProcessingException {
         model.addAttribute("auth", auth);
+
+        if (bindingResult.hasErrors())
+            return "/login.jsp";
         String message = authService.login(auth);
         if (message == null)
             return "redirect:";

@@ -39,7 +39,7 @@ public class GioHangController {
     public String decreaseQuantityInCart(@RequestParam("cid") String cid) throws IOException {
         if (cid != null && !cid.equals(""))
             gioHangService.decreaseQuantityInCart(cid);
-        return "redirect:/cart";
+        return "redirect:/checkout";
 
     }
 
@@ -48,7 +48,7 @@ public class GioHangController {
         if (cid != null && !cid.equals(""))
             gioHangService.increaseQuantityInCart(cid);
 
-        return "redirect:/cart";
+        return "redirect:/checkout";
 
     }
 
@@ -56,13 +56,13 @@ public class GioHangController {
     public String deleteItemInCart(@RequestParam("pdid") String pdid) {
         if (pdid != null && !pdid.equals(""))
             gioHangService.deleteItemInCart(pdid);
-        return "redirect:/cart";
+        return "redirect:/checkout";
     }
 
     @GetMapping("/clear-cart")
     public String clearCart() {
         gioHangService.deleteAll();
-        return "redirect:/cart";
+        return "redirect:/checkout";
     }
 
 }

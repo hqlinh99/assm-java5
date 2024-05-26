@@ -19,15 +19,15 @@ public class HoaDon {
 
     private String id;
 
-    @NotNull(message = "Vui long chon nhan vien")
+    @NotNull(message = "Vui lòng chọn nhân viên!")
     private NhanVien nhanVien;
 
-    @NotNull(message = "Vui long chon khach hang")
+    @NotNull(message = "Vui lòng chọn khách hàng!")
     private KhachHang khachHang;
 
     private Date ngayMuaHang = new Date();
 
-    @NotNull(message = "Vui long chon trang thai")
+    @NotNull(message = "Vui lòng chọn trạng thái!")
     private Boolean trangThai;
 
 }

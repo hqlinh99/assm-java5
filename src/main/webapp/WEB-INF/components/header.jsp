@@ -106,7 +106,7 @@
                     <div class="btn btn-icon btn-circle btn-color-gray-500 btn-active-color-primary btn-custom shadow-xs bg-body position-relative"
                          id="kt_drawer_chat_toggle">
                         <i class="ki-outline ki-shop fs-1"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle  badge badge-circle badge-danger"${cart.size() <= 0 ? "hidden" : ""}>${cart.size()}</span>
+                        <span class="position-absolute top-0 start-100 translate-middle  badge badge-circle badge-danger"${cart == null || cart.size() <= 0 ? "hidden" : ""}>${cart.size()}</span>
                     </div>
                     <!--end::Menu wrapper-->
                 </div>
