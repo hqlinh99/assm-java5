@@ -139,8 +139,9 @@
                                                         <!--begin::Thumbnail-->
                                                         <a href="/employee/update?id=${invoice.nhanVien.id}"
                                                            class="symbol symbol-50px">
-                                                <span class="symbol-label"
-                                                      style="background-image:url('${invoice.nhanVien.hinhAnh}');"></span>
+                                                            <span class="symbol-label"
+                                                                  style="background-image:url('${invoice.nhanVien.hinhAnh}');">
+                                                            </span>
                                                         </a>
                                                         <!--end::Thumbnail-->
                                                         <div class="ms-5">

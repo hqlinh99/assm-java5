@@ -48,7 +48,7 @@
                 <!--begin::Col-->
                 <div class="row gy-5 g-xl-10">
                     <!--begin::Col-->
-                    <div class="col-xl-4">
+                    <div class="col-xl-12">
                         <!--begin::Info-->
                         <div class="card card-flush py-4">
                             <!--begin::Card header-->
@@ -61,7 +61,8 @@
                             <!--begin::Form-->
                             <form:form id="kt_account_profile_details_form"
                                        class="form fv-plugins-bootstrap5 fv-plugins-framework"
-                                       action="/products/create?pid=${sanPham.id}" method="post" modelAttribute="sanPham"
+                                       action="/product-${sanPham.id}/details/create" method="post"
+                                       modelAttribute="sanPhamChiTiet"
                                        enctype="multipart/form-data">
                                 <!--begin::Card body-->
                                 <div class="card-body pt-0">
@@ -72,7 +73,7 @@
                                              data-kt-image-input="true">
                                             <!--begin::Preview existing avatar-->
                                             <div class="image-input-wrapper w-150px h-150px"
-                                                 style="background-image: url('${sanPham.hinhAnh}')">
+                                                 style="background-image: url('${sanPhamChiTiet.hinhAnh}')">
                                             </div>
                                             <!--end::Preview existing avatar-->
                                             <!--begin::Label-->
@@ -124,13 +125,13 @@
                                     <!--begin::Input group-->
                                     <div class="mb-10 fv-row">
                                         <!--begin::Label-->
-                                        <label class="required form-label">Mã sản phẩm</label>
+                                        <label class="required form-label">Mã SPCT</label>
                                         <!--end::Label-->
                                         <!--begin::Error-->
-                                        <form:errors path="maSP" class="badge badge-light-danger"/>
+                                        <form:errors path="maSPCT" class="badge badge-light-danger"/>
                                         <!--end::Error-->
                                         <!--begin::Input-->
-                                        <form:input path="maSP" class="form-control mb-2"
+                                        <form:input path="maSPCT" class="form-control mb-2"
                                                     placeholder="Mã sản phẩm"/>
                                         <!--end::Input-->
                                         <!--begin::Description-->
@@ -141,7 +142,7 @@
                                     <!--begin::Input group-->
                                     <div class="mb-10 fv-row">
                                         <!--begin::Label-->
-                                        <label class="required form-label">Tên sản phẩm</label>
+                                        <label class="required form-label">Tên SPCT</label>
                                         <!--end::Label-->
                                         <!--begin::Error-->
                                         <form:errors path="ten" class="badge badge-light-danger"/>
@@ -151,7 +152,86 @@
                                                     placeholder="Tên sản phẩm"/>
                                         <!--end::Input-->
                                         <!--begin::Description-->
-                                        <div class="text-muted fs-7">Nhập tên sản phẩm.</div>
+                                        <div class="text-muted fs-7">Nhập tên sản phẩm chi tiết.</div>
+                                        <!--end::Description-->
+                                    </div>
+                                    <!--end::Input group-->
+                                    <!--begin::Input group-->
+                                    <div class="mb-10 fv-row">
+                                        <!--begin::Label-->
+                                        <label class="required form-label">Chọn kích thước</label>
+                                        <!--end::Label-->
+                                        <!--begin::Error-->
+                                        <form:errors path="kichThuoc" class="badge badge-light-danger"/>
+                                        <!--end::Error-->
+                                        <!--begin::Input-->
+                                        <select class="form-select" data-control="select1"
+                                                data-placeholder="Chọn kích thước" name="kichThuoc.id">
+                                            <c:forEach items="${sizes}" var="size">
+                                                <option value="${size.id}"${sanPhamChiTiet.kichThuoc.id == size.id ? "selected" : ""}>
+                                                        ${size.id} - ${size.ten}
+                                                </option>
+                                            </c:forEach>
+                                        </select>
+                                        <!--end::Input-->
+                                        <!--begin::Description-->
+                                        <div class="text-muted fs-7">Chọn kích thước cho sản phẩm chi tiết.</div>
+                                        <!--end::Description-->
+                                    </div>
+                                    <!--begin::Input group-->
+                                    <div class="mb-10 fv-row">
+                                        <!--begin::Label-->
+                                        <label class="required form-label">Chọn màu sắc</label>
+                                        <!--end::Label-->
+                                        <!--begin::Error-->
+                                        <form:errors path="mauSac" class="badge badge-light-danger"/>
+                                        <!--end::Error-->
+                                        <!--begin::Input-->
+                                        <select class="form-select" data-control="select2"
+                                                data-placeholder="Chọn màu sắc" name="mauSac.id">
+                                            <c:forEach items="${colors}" var="color">
+                                                <option value="${color.id}"${sanPhamChiTiet.kichThuoc.id == color.id ? "selected" : ""}>
+                                                        ${color.id} - ${color.ten}
+                                                </option>
+                                            </c:forEach>
+                                        </select>
+                                        <!--end::Input-->
+                                        <!--begin::Description-->
+                                        <div class="text-muted fs-7">Chọn màu sắc cho sản phẩm chi tiết.</div>
+                                        <!--end::Description-->
+                                    </div>
+                                    <!--end::Input group-->
+                                    <!--begin::Input group-->
+                                    <div class="mb-10 fv-row">
+                                        <!--begin::Label-->
+                                        <label class="required form-label">Số lượng</label>
+                                        <!--end::Label-->
+                                        <!--begin::Error-->
+                                        <form:errors path="soLuong" class="badge badge-light-danger"/>
+                                        <!--end::Error-->
+                                        <!--begin::Input-->
+                                        <form:input path="soLuong" class="form-control mb-2"
+                                                    placeholder="Số lượng"/>
+                                        <!--end::Input-->
+                                        <!--begin::Description-->
+                                        <div class="text-muted fs-7">Nhập số lượng sản phẩm chi tiết.</div>
+                                        <!--end::Description-->
+                                    </div>
+                                    <!--end::Input group-->
+                                    <!--begin::Input group-->
+                                    <div class="mb-10 fv-row">
+                                        <!--begin::Label-->
+                                        <label class="required form-label">Đơn giá</label>
+                                        <!--end::Label-->
+                                        <!--begin::Error-->
+                                        <form:errors path="soLuong" class="badge badge-light-danger"/>
+                                        <!--end::Error-->
+                                        <!--begin::Input-->
+                                        <form:input path="donGia" class="form-control mb-2"
+                                                    placeholder="Đơn giá"/>
+                                        <!--end::Input-->
+                                        <!--begin::Description-->
+                                        <div class="text-muted fs-7">Nhập đơn giá sản phẩm chi tiết.</div>
                                         <!--end::Description-->
                                     </div>
                                     <!--end::Input group-->
@@ -209,7 +289,7 @@
                     </div>
                     <!--end::Col-->
                     <!--begin::Col-->
-                    <div class="col-xl-8">
+                    <div class="col-xl-12">
                         <!--begin::Products-->
                         <div class="card card-flush">
                             <!--begin::Card header-->
@@ -271,29 +351,21 @@
                                        id="kt_ecommerce_product_table">
                                     <thead>
                                     <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
-                                        <th class="w-10px pe-2">
-                                            <div class="form-check form-check-sm form-check-custom form-check-solid me-3">
-                                                <input class="form-check-input" type="checkbox" data-kt-check="true"
-                                                       data-kt-check-target="#kt_ecommerce_product_table .form-check-input"
-                                                       value="1"/>
-                                            </div>
-                                        </th>
-                                        <th class="min-w-100px">Mã sản phẩm</th>
-                                        <th class="min-w-200px">Tên sản phẩm</th>
+                                        <th class="min-w-100px">Mã SPCT</th>
+                                        <th class="min-w-200px">Tên SPCT</th>
+                                        <th class="min-w-100px">Kích thước</th>
+                                        <th class="min-w-100px">Màu sắc</th>
+                                        <th class="text-end min-w-100px">Số lượng</th>
+                                        <th class="text-end min-w-100px">Đơn giá</th>
                                         <th class="text-end min-w-100px">Trạng thái</th>
                                         <th class="text-end min-w-70px">Hành động</th>
                                     </tr>
                                     </thead>
                                     <tbody class="fw-semibold text-gray-600">
-                                    <c:forEach items="${products}" var="product" varStatus="i">
+                                    <c:forEach items="${productDetails}" var="productDetail" varStatus="i">
                                         <tr>
-                                            <td>
-                                                <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                                    <input class="form-check-input" type="checkbox" value="1"/>
-                                                </div>
-                                            </td>
                                             <td class="pe-0">
-                                                <span class="fw-bold">${product.maSP}</span>
+                                                <span class="fw-bold">${productDetail.maSPCT}</span>
                                             </td>
                                             <td>
                                                 <div class="d-flex align-items-center">
@@ -301,18 +373,30 @@
                                                     <a href="apps/ecommerce/catalog/edit-product.html"
                                                        class="symbol symbol-50px">
                                                     <span class="symbol-label"
-                                                          style="background-image:url('${product.hinhAnh}');"></span>
+                                                          style="background-image:url('${productDetail.hinhAnh}');"></span>
                                                     </a>
                                                     <!--end::Thumbnail-->
                                                     <div class="ms-5">
                                                         <!--begin::Title-->
                                                         <a href="apps/ecommerce/catalog/edit-product.html"
                                                            class="text-gray-800 text-hover-primary fs-5 fw-bold"
-                                                           data-kt-ecommerce-product-filter="product_name">${product.ten}
+                                                           data-kt-ecommerce-product-filter="product_name">${productDetail.ten}
                                                         </a>
                                                         <!--end::Title-->
                                                     </div>
                                                 </div>
+                                            </td>
+                                            <td class="pe-0">
+                                                <span class="fw-bold">${productDetail.kichThuoc.maKT} - ${productDetail.kichThuoc.ten}</span>
+                                            </td>
+                                            <td class="pe-0">
+                                                <span class="fw-bold">${productDetail.mauSac.maMS} - ${productDetail.mauSac.ten}</span>
+                                            </td>
+                                            <td class="text-end pe-0">
+                                                <span class="fw-bold">${productDetail.soLuong}</span>
+                                            </td>
+                                            <td class="text-end pe-0">
+                                                <span class="fw-bold">${productDetail.donGia}</span>
                                             </td>
                                             <td class="text-end pe-0" data-order="Scheduled">
                                                 <!--begin::Badges-->
@@ -333,13 +417,13 @@
                                                      data-kt-menu="true">
                                                     <!--begin::Menu item-->
                                                     <div class="menu-item px-3">
-                                                        <a href="/products/update?pid=${product.id}"
+                                                        <a href="/product-${sanPham.id}/details-update?pdid=${productDetail.id}"
                                                            class="menu-link px-3">Sửa thông tin</a>
                                                     </div>
                                                     <!--end::Menu item-->
                                                     <!--begin::Menu item-->
                                                     <div class="menu-item px-3">
-                                                        <a href="/products/delete?pid=${product.id}"
+                                                        <a href="/products/delete?pid=${productDetail.id}"
                                                            class="menu-link px-3"
                                                            data-kt-ecommerce-product-filter="delete_row">Xoá sản phẩm
                                                         </a>

@@ -18,32 +18,32 @@ public class SanPhamChiTiet {
 
     private String id;
 
-    @NotBlank(message = "Vui long nhap ma san pham chi tiet")
+    @NotBlank(message = "Vui lòng nhập mã sản phẩm chi tiết!")
     private String maSPCT;
 
-    @NotBlank(message = "Vui long nhap ten san pham chi tiet")
+    @NotBlank(message = "Vui lòng nhập tên sản phẩm chi tiết!")
     private String ten;
 
-    @NotNull(message = "Vui long chon kich thuoc")
+    @NotNull(message = "Vui lòng nhập kích thước")
     private KichThuoc kichThuoc;
 
-    @NotNull(message = "Vui long chon mau sac")
+    @NotNull(message = "Vui lòng chọn màu sắc!")
     private MauSac mauSac;
 
-    @NotNull(message = "Vui long chon san pham")
+    @NotNull(message = "Vui lòng chọn sản phẩm!")
     private SanPham sanPham;
 
-    @Min(value = 1, message = "Vui long nhap so luong > 0")
-    @NotNull(message = "Vui long nhap so luong")
+    @Min(value = 1, message = "Vui lòng nhập số lượng > 0")
+    @NotNull(message = "Vui lòng nhập số lượng")
     private Integer soLuong;
 
-    @Min(value = 1, message = "Vui long nhap don gia > 0")
-    @NotNull(message = "Vui long nhap don gia")
+    @Min(value = 1, message = "Vui lòng nhập đơn giá > 0")
+    @NotNull(message = "Vui lòng nhập đơn giá")
     private Double donGia;
 
     private String hinhAnh;
 
-    @NotNull(message = "Vui long chon trang thai")
+    @NotNull(message = "Vui lòng chọn trạng thái")
     private Boolean trangThai;
 
 }

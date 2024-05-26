@@ -22,10 +22,12 @@ public class MauSacController {
 
     @GetMapping("/products/colors")
     public String pTable(@ModelAttribute("mauSac") MauSac mauSac,
+                         @RequestParam(value = "key", required = false) Integer key,
+                         @RequestParam(value = "status", required = false, defaultValue = "all") String status,
                          @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
                          @RequestParam(value = "pageSize", required = false, defaultValue = "5") Integer pageSize,
                          Model model) {
-        Page<MauSac> mauSacPage = PageUtil.createPage(mauSacService.findAll(), page, pageSize);
+        Page<MauSac> mauSacPage = PageUtil.createPage(mauSacService.findAll(status), page, pageSize);
         model.addAttribute("colors", mauSacPage.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("pageSize", pageSize);
@@ -64,7 +66,7 @@ public class MauSacController {
                              @RequestParam(value = "pageSize", required = false, defaultValue = "5") Integer pageSize,
                              Model model) {
         if (result.hasErrors()) {
-            Page<MauSac> mauSacPage = PageUtil.createPage(mauSacService.findAll(), page, pageSize);
+            Page<MauSac> mauSacPage = PageUtil.createPage(mauSacService.findAll("all"), page, pageSize);
             model.addAttribute("colors", mauSacPage.getContent());
             model.addAttribute("currentPage", page);
             model.addAttribute("pageSize", pageSize);
@@ -89,7 +91,7 @@ public class MauSacController {
                              Model model) {
         MauSac mauSac1 = mauSacService.findById(id);
         model.addAttribute("mauSac", mauSac1);
-        Page<MauSac> mauSacPage = PageUtil.createPage(mauSacService.findAll(), page, pageSize);
+        Page<MauSac> mauSacPage = PageUtil.createPage(mauSacService.findAll("all"), page, pageSize);
         model.addAttribute("colors", mauSacPage.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("pageSize", pageSize);

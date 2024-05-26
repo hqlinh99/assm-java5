@@ -5,11 +5,15 @@ import com.poly.assignment.entity.MauSac;
 import com.poly.assignment.entity.SanPham;
 import com.poly.assignment.entity.SanPhamChiTiet;
 import com.poly.assignment.util.PageUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -17,14 +21,25 @@ public class SanPhamChiTietService {
 
     List<SanPhamChiTiet> listSanPhamChiTiet = new ArrayList<>();
 
-    public SanPhamChiTietService() {
-        listSanPhamChiTiet.add(new SanPhamChiTiet("1", "SPCT01", "Basic", new KichThuoc("1", "KT01", "S", true), new MauSac("1", "MS01", "Den", true), new SanPham("1", "SP01", "Ao so mi", "https://bizweb.dktcdn.net/100/438/408/products/smm4073-den-5-c0028085-1e0a-4909-8a9a-254b104651d7.jpg?v=1690163848063", true), 20, 50.0, "https://bizweb.dktcdn.net/100/438/408/products/smm4073-tra-5.jpg?v=1690163848063", true));
-        listSanPhamChiTiet.add(new SanPhamChiTiet("2", "SPCT02", "Kẻ sọc", new KichThuoc("2", "KT02", "M", true), new MauSac("3", "MS03", "Do", true), new SanPham("3", "SP03", "Ao hoodie", "https://bizweb.dktcdn.net/100/438/408/products/smm4073-tra-5.jpg?v=1690163848063", true), 10, 100.0, "https://bizweb.dktcdn.net/100/438/408/products/smm4073-xnh-4-5f31f3af-196e-474f-80eb-ce0b4617d518.jpg?v=1690163848063", true));
-        listSanPhamChiTiet.add(new SanPhamChiTiet("3", "SPCT03", "Tay ngắn", new KichThuoc("3", "KT03", "L", true), new MauSac("2", "MS02", "Trang", true), new SanPham("4", "SP04", "Ao polo", "https://bizweb.dktcdn.net/100/438/408/products/smm4073-xnh-4-5f31f3af-196e-474f-80eb-ce0b4617d518.jpg?v=1690163848063", true), 15, 150.0, "https://bizweb.dktcdn.net/100/438/408/products/smm4073-xdm-4.jpg?v=1690163848063", true));
-        listSanPhamChiTiet.add(new SanPhamChiTiet("4", "SPCT04", "Caro", new KichThuoc("4", "KT04", "XL", true), new MauSac("4", "MS04", "Xanh", true), new SanPham("1", "SP01", "Ao so mi", "https://bizweb.dktcdn.net/100/438/408/products/smm4073-den-5-c0028085-1e0a-4909-8a9a-254b104651d7.jpg?v=1690163848063", true), 15, 100.0, "https://bizweb.dktcdn.net/100/438/408/products/smm4073-xnh-4-5f31f3af-196e-474f-80eb-ce0b4617d518.jpg?v=1690163848063", true));
-        listSanPhamChiTiet.add(new SanPhamChiTiet("5", "SPCT05", "Caro", new KichThuoc("5", "KT05", "XXL", true), new MauSac("5", "MS05", "Cam", true), new SanPham("4", "SP04", "Ao polo", "https://bizweb.dktcdn.net/100/438/408/products/smm4073-xnh-4-5f31f3af-196e-474f-80eb-ce0b4617d518.jpg?v=1690163848063", true), 20, 50.0, "https://bizweb.dktcdn.net/100/438/408/products/smm4073-tit-5-71cfb015-53a4-4258-92ca-bc2e2be1bf5e.jpg?v=1690163848063", true));
-        listSanPhamChiTiet.add(new SanPhamChiTiet("6", "SPCT06", "Kẻ sọc", new KichThuoc("2", "KT02", "M", true), new MauSac("3", "MS03", "Do", true), new SanPham("2", "SP02", "Ao khoac", "https://bizweb.dktcdn.net/100/438/408/products/smm4073-xdm-4.jpg?v=1690163848063", true), 10, 100.0, "https://bizweb.dktcdn.net/100/438/408/products/smm4073-den-5-c0028085-1e0a-4909-8a9a-254b104651d7.jpg?v=1690163848063", true));
-        listSanPhamChiTiet.add(new SanPhamChiTiet("7", "SPCT07", "Caro", new KichThuoc("4", "KT04", "XL", true), new MauSac("4", "MS04", "Xanh", true), new SanPham("5", "SP05", "Ao ni", "https://bizweb.dktcdn.net/100/438/408/products/smm4073-tit-5-71cfb015-53a4-4258-92ca-bc2e2be1bf5e.jpg?v=1690163848063", true), 15, 200.0, "https://bizweb.dktcdn.net/100/438/408/products/smm4073-xdm-4.jpg?v=1690163848063", true));
+    private KichThuocService kichThuocService;
+
+    private MauSacService mauSacService;
+
+    private SanPhamService sanPhamService;
+
+    private @Autowired FileUploadService fileUploadService;
+    public SanPhamChiTietService(KichThuocService kichThuocService, MauSacService mauSacService, SanPhamService sanPhamService) {
+        this.kichThuocService = kichThuocService;
+        this.mauSacService = mauSacService;
+        this.sanPhamService = sanPhamService;
+
+        listSanPhamChiTiet.add(new SanPhamChiTiet("1", "SPCT01", "Basic", kichThuocService.findById("1"), mauSacService.findById("1"), sanPhamService.findById("1"), 20, 50.0, "https://bizweb.dktcdn.net/100/438/408/products/smm4073-tra-5.jpg?v=1690163848063", true));
+        listSanPhamChiTiet.add(new SanPhamChiTiet("2", "SPCT02", "Kẻ sọc", kichThuocService.findById("2"), mauSacService.findById("2"), sanPhamService.findById("2"), 10, 100.0, "https://bizweb.dktcdn.net/100/438/408/products/smm4073-xnh-4-5f31f3af-196e-474f-80eb-ce0b4617d518.jpg?v=1690163848063", true));
+        listSanPhamChiTiet.add(new SanPhamChiTiet("3", "SPCT03", "Tay ngắn", kichThuocService.findById("3"), mauSacService.findById("3"), sanPhamService.findById("3"), 15, 150.0, "https://bizweb.dktcdn.net/100/438/408/products/smm4073-xdm-4.jpg?v=1690163848063", true));
+        listSanPhamChiTiet.add(new SanPhamChiTiet("4", "SPCT04", "Caro", kichThuocService.findById("4"), mauSacService.findById("4"), sanPhamService.findById("4"), 15, 100.0, "https://bizweb.dktcdn.net/100/438/408/products/smm4073-xnh-4-5f31f3af-196e-474f-80eb-ce0b4617d518.jpg?v=1690163848063", true));
+        listSanPhamChiTiet.add(new SanPhamChiTiet("5", "SPCT05", "Caro", kichThuocService.findById("5"), mauSacService.findById("5"), sanPhamService.findById("5"), 20, 50.0, "https://bizweb.dktcdn.net/100/438/408/products/smm4073-tit-5-71cfb015-53a4-4258-92ca-bc2e2be1bf5e.jpg?v=1690163848063", true));
+        listSanPhamChiTiet.add(new SanPhamChiTiet("6", "SPCT06", "Kẻ sọc", kichThuocService.findById("6"), mauSacService.findById("6"), sanPhamService.findById("6"), 10, 100.0, "https://bizweb.dktcdn.net/100/438/408/products/smm4073-den-5-c0028085-1e0a-4909-8a9a-254b104651d7.jpg?v=1690163848063", true));
+        listSanPhamChiTiet.add(new SanPhamChiTiet("7", "SPCT07", "Caro",  kichThuocService.findById("7"), mauSacService.findById("7"), sanPhamService.findById("7"), 15, 200.0, "https://bizweb.dktcdn.net/100/438/408/products/smm4073-xdm-4.jpg?v=1690163848063", true));
     }
 
     public List<SanPhamChiTiet> findAll(String status) {
@@ -62,27 +77,25 @@ public class SanPhamChiTietService {
         return result;
     }
 
-    public void create(SanPhamChiTiet sanPhamChiTiet) {
+    public void create(SanPhamChiTiet sanPhamChiTiet, String pid, MultipartFile file) throws IOException {
+        sanPhamChiTiet.setId(UUID.randomUUID().toString());
+        sanPhamChiTiet.setSanPham(sanPhamService.findById(pid));
+        sanPhamChiTiet.setHinhAnh(fileUploadService.uploadFile(file));
         listSanPhamChiTiet.add(sanPhamChiTiet);
     }
 
-    public void update(SanPhamChiTiet sanPhamChiTiet) {
+    public void update(SanPhamChiTiet sanPhamChiTiet, String pid, MultipartFile file) throws IOException {
         for (int i = 0; i < listSanPhamChiTiet.size(); i++) {
             if (listSanPhamChiTiet.get(i).getId().equals(sanPhamChiTiet.getId())) {
+                sanPhamChiTiet.setSanPham(sanPhamService.findById(pid));
+                sanPhamChiTiet.setHinhAnh(fileUploadService.uploadFile(file));
                 listSanPhamChiTiet.set(i, sanPhamChiTiet);
             }
         }
     }
 
     public void delete(String id) {
-        List<SanPhamChiTiet> deList = new ArrayList<>();
-        for (int i = 0; i < listSanPhamChiTiet.size(); i++) {
-            if (listSanPhamChiTiet.get(i).getId().equals(id)) {
-                deList.add(listSanPhamChiTiet.get(i));
-            }
-        }
-
-        listSanPhamChiTiet.removeAll(deList);
+        listSanPhamChiTiet.remove(findById(id));
     }
 
 }

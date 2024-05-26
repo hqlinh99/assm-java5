@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class MauSacService {
@@ -22,7 +23,13 @@ public class MauSacService {
         listMauSac.add(new MauSac("5", "MS05", "Cam", true));
     }
 
-    public List<MauSac> findAll() {
+    public List<MauSac> findAll(String status) {
+        if (status.equals("true")) return listMauSac.stream()
+                .filter(sp -> sp.getTrangThai())
+                .collect(Collectors.toList());
+        if (status.equals("false")) return listMauSac.stream()
+                .filter(sp -> !sp.getTrangThai())
+                .collect(Collectors.toList());
         return listMauSac;
     }
 

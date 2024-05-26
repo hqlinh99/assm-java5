@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class KichThuocService {
@@ -22,7 +23,13 @@ public class KichThuocService {
         listKichThuoc.add(new KichThuoc("5", "KT05", "XXL", true));
     }
 
-    public List<KichThuoc> findAll() {
+    public List<KichThuoc> findAll(String status) {
+        if (status.equals("true")) return listKichThuoc.stream()
+                .filter(sp -> sp.getTrangThai())
+                .collect(Collectors.toList());
+        if (status.equals("false")) return listKichThuoc.stream()
+                .filter(sp -> !sp.getTrangThai())
+                .collect(Collectors.toList());
         return listKichThuoc;
     }
 

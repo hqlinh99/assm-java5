@@ -22,10 +22,12 @@ public class KichThuocController {
 
     @GetMapping("/products/sizes")
     public String pTable(@ModelAttribute("kichThuoc") KichThuoc kichThuoc,
+                         @RequestParam(value = "key", required = false) String key,
+                         @RequestParam(value = "status", required = false, defaultValue = "all") String status,
                          @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
                          @RequestParam(value = "pageSize", required = false, defaultValue = "5") Integer pageSize,
                          Model model) {
-        Page<KichThuoc> kichThuocPage = PageUtil.createPage(kichThuocService.findAll(), page, pageSize);
+        Page<KichThuoc> kichThuocPage = PageUtil.createPage(kichThuocService.findAll(status), page, pageSize);
         model.addAttribute("sizes", kichThuocPage.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("pageSize", pageSize);
@@ -64,7 +66,7 @@ public class KichThuocController {
                              @RequestParam(value = "pageSize", required = false, defaultValue = "5") Integer pageSize,
                              Model model) {
         if (result.hasErrors()) {
-            Page<KichThuoc> kichThuocPage = PageUtil.createPage(kichThuocService.findAll(), page, pageSize);
+            Page<KichThuoc> kichThuocPage = PageUtil.createPage(kichThuocService.findAll("all"), page, pageSize);
             model.addAttribute("sizes", kichThuocPage.getContent());
             model.addAttribute("currentPage", page);
             model.addAttribute("pageSize", pageSize);
@@ -89,7 +91,7 @@ public class KichThuocController {
                              Model model) {
         KichThuoc kichThuoc1 = kichThuocService.findById(id);
         model.addAttribute("kichThuoc", kichThuoc1);
-        Page<KichThuoc> kichThuocPage = PageUtil.createPage(kichThuocService.findAll(), page, pageSize);
+        Page<KichThuoc> kichThuocPage = PageUtil.createPage(kichThuocService.findAll("all"), page, pageSize);
         model.addAttribute("sizes", kichThuocPage.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("pageSize", pageSize);

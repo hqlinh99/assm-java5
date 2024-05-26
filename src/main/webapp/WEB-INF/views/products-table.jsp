@@ -333,7 +333,7 @@
                                                      data-kt-menu="true">
                                                     <!--begin::Menu item-->
                                                     <div class="menu-item px-3">
-                                                        <a href="/products/update?pid=${product.id}"
+                                                        <a href="/product-${product.id}/details-table"
                                                            class="menu-link px-3">Biến thể</a>
                                                     </div>
                                                     <!--end::Menu item-->
