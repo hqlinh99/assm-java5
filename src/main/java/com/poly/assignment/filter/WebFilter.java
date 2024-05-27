@@ -31,6 +31,10 @@ public class WebFilter implements Filter {
 
             if (nhanVien != null) {
                 request.setAttribute("currentUser", nhanVien);
+                if (nhanVien.getChucVu().equals(false)
+                        && httpServletRequest.getRequestURI().startsWith("/invoices/create")
+                        && httpServletRequest.getMethod().equals("POST"))
+                    httpServletResponse.sendRedirect("/");
             } else {
                 httpServletResponse.sendRedirect("/login");
             }

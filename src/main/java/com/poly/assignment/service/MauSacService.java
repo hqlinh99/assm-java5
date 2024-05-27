@@ -1,10 +1,10 @@
 package com.poly.assignment.service;
 
 import com.poly.assignment.entity.MauSac;
-import com.poly.assignment.util.PageUtil;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -25,41 +25,30 @@ public class MauSacService {
 
     public List<MauSac> findAll(String status) {
         if (status.equals("true")) return listMauSac.stream()
-                .filter(sp -> sp.getTrangThai())
+                .filter(item -> item.getTrangThai())
                 .collect(Collectors.toList());
         if (status.equals("false")) return listMauSac.stream()
-                .filter(sp -> !sp.getTrangThai())
+                .filter(item -> !item.getTrangThai())
                 .collect(Collectors.toList());
         return listMauSac;
     }
 
     public MauSac findById(String id) {
-        for (MauSac mauSac: listMauSac) {
-            if (mauSac.getId().equals(id)) {
-                return mauSac;
-            }
-        }
-
-        return null;
+        return listMauSac.stream().filter(item -> item.getId().equals(id)).findFirst().orElse(null);
     }
 
     public List<MauSac> findByKey(String key) {
-        List<MauSac> result = new ArrayList<>();
-        for (MauSac mauSac: listMauSac) {
-            if (mauSac.getMaMS().contains(key) || mauSac.getTen().contains(key)) {
-                result.add(mauSac);
-            }
-        }
-
-        return result;
+        return listMauSac.stream()
+                .filter(item -> item.getMaMS().contains(key) || item.getTen().contains(key))
+                .collect(Collectors.toList());
     }
 
-    public void create(MauSac mauSac) {
+    public void create(MauSac mauSac) throws IOException {
         mauSac.setId(UUID.randomUUID().toString());
         listMauSac.add(mauSac);
     }
 
-    public void update(MauSac mauSac) {
+    public void update(MauSac mauSac) throws IOException {
         for (int i = 0; i < listMauSac.size(); i++) {
             if (listMauSac.get(i).getId().equals(mauSac.getId())) {
                 listMauSac.set(i, mauSac);
@@ -68,14 +57,7 @@ public class MauSacService {
     }
 
     public void delete(String id) {
-        List<MauSac> deList = new ArrayList<>();
-        for (int i = 0; i < listMauSac.size(); i++) {
-            if (listMauSac.get(i).getId().equals(id)) {
-                deList.add(listMauSac.get(i));
-            }
-        }
-
-        listMauSac.removeAll(deList);
+        listMauSac.remove(findById(id));
     }
 
 }

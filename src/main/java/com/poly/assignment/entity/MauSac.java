@@ -17,13 +17,13 @@ public class MauSac {
 
     private String id;
 
-    @NotBlank(message = "Vui long nhap ma mau sac")
+    @NotBlank(message = "Vui lòng nhập mã màu sắc!")
     private String maMS;
 
-    @NotBlank(message = "Vui long nhap ten mau sac")
+    @NotBlank(message = "Vui lòng nhập tên màu sắc!")
     private String ten;
 
-    @NotNull(message = "Vui long chon trang thai")
+    @NotNull(message = "Vui lòng chọn trạng thái!")
     private Boolean trangThai;
 
 }

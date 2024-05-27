@@ -1,6 +1,7 @@
 package com.poly.assignment.controller;
 
 import com.poly.assignment.entity.KichThuoc;
+import com.poly.assignment.entity.KichThuoc;
 import com.poly.assignment.service.KichThuocService;
 import com.poly.assignment.util.PageUtil;
 import jakarta.validation.Valid;
@@ -10,7 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -25,29 +28,20 @@ public class KichThuocController {
                          @RequestParam(value = "key", required = false) String key,
                          @RequestParam(value = "status", required = false, defaultValue = "all") String status,
                          @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-                         @RequestParam(value = "pageSize", required = false, defaultValue = "5") Integer pageSize,
+                         @RequestParam(value = "pageSize", required = false, defaultValue = "8") Integer pageSize,
                          Model model) {
-        Page<KichThuoc> kichThuocPage = PageUtil.createPage(kichThuocService.findAll(status), page, pageSize);
-        model.addAttribute("sizes", kichThuocPage.getContent());
-        model.addAttribute("currentPage", page);
-        model.addAttribute("pageSize", pageSize);
-        model.addAttribute("totalPages", kichThuocPage.getTotalPages());
+        if (key != null) {
+            model.addAttribute("key", key);
+            model.addAttribute("sizes", kichThuocService.findByKey(key));
+        } else {
+            Page<KichThuoc> kichThuocPage = PageUtil.createPage(kichThuocService.findAll(status), page, pageSize);
+            model.addAttribute("sizes", kichThuocPage.getContent());
+            model.addAttribute("currentPage", page);
+            model.addAttribute("pageSize", pageSize);
+            model.addAttribute("totalPages", kichThuocPage.getTotalPages());
+            model.addAttribute("status", status);
+        }
         return "/sizes-table.jsp";
-    }
-
-    @GetMapping("/size/{id}")
-    public KichThuoc getSizeById(@PathVariable("id") String id) {
-        return kichThuocService.findById(id);
-    }
-
-    @GetMapping("/size/search")
-    public String findByKey(@RequestParam("key") String key,
-                            @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-                            @RequestParam(value = "pageSize", required = false, defaultValue = "5") Integer pageSize,
-                            Model model) {
-        Page<KichThuoc> kichThuocPage = PageUtil.createPage(kichThuocService.findByKey(key), page, pageSize);
-        model.addAttribute("sizes", kichThuocPage.getContent());
-        return "redirect:/sizes/table";
     }
 
     @ModelAttribute("status")
@@ -58,13 +52,13 @@ public class KichThuocController {
         return map;
     }
 
-    @PostMapping("/size/create")
-    public String createSize(@Valid @ModelAttribute("kichThuoc") KichThuoc kichThuoc,
-                             BindingResult result,
-                             @RequestParam(value = "id", required = false) String id,
-                             @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-                             @RequestParam(value = "pageSize", required = false, defaultValue = "5") Integer pageSize,
-                             Model model) {
+    @PostMapping("/sizes/create")
+    public String createProduct(@Valid @ModelAttribute("kichThuoc") KichThuoc kichThuoc,
+                                BindingResult result,
+                                @RequestParam(value = "pid", required = false) String pid,
+                                @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+                                @RequestParam(value = "pageSize", required = false, defaultValue = "5") Integer pageSize,
+                                Model model) throws IOException {
         if (result.hasErrors()) {
             Page<KichThuoc> kichThuocPage = PageUtil.createPage(kichThuocService.findAll("all"), page, pageSize);
             model.addAttribute("sizes", kichThuocPage.getContent());
@@ -74,8 +68,8 @@ public class KichThuocController {
             return "/sizes-table.jsp";
         }
 
-        if (!id.isBlank()) {
-            kichThuoc.setId(id);
+        if (pid != null && !pid.isBlank()) {
+            kichThuoc.setId(pid);
             kichThuocService.update(kichThuoc);
         } else {
             kichThuocService.create(kichThuoc);
@@ -84,13 +78,12 @@ public class KichThuocController {
         return "redirect:/sizes/table";
     }
 
-    @GetMapping("/size/update")
-    public String updateSize(@RequestParam("id") String id,
-                             @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-                             @RequestParam(value = "pageSize", required = false, defaultValue = "5") Integer pageSize,
-                             Model model) {
-        KichThuoc kichThuoc1 = kichThuocService.findById(id);
-        model.addAttribute("kichThuoc", kichThuoc1);
+    @GetMapping("/sizes/update")
+    public String updateProduct(@RequestParam("pid") String pid,
+                                @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+                                @RequestParam(value = "pageSize", required = false, defaultValue = "5") Integer pageSize,
+                                Model model) {
+        model.addAttribute("kichThuoc", kichThuocService.findById(pid));
         Page<KichThuoc> kichThuocPage = PageUtil.createPage(kichThuocService.findAll("all"), page, pageSize);
         model.addAttribute("sizes", kichThuocPage.getContent());
         model.addAttribute("currentPage", page);
@@ -100,8 +93,9 @@ public class KichThuocController {
     }
 
     @GetMapping("/sizes/delete")
-    public String deleteSize(@RequestParam("id") String id) {
-        kichThuocService.delete(id);
+    public String deleteProduct(@RequestParam("pid") String pid) {
+        kichThuocService.delete(pid);
+
         return "redirect:/sizes/table";
     }
 

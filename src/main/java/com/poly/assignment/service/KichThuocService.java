@@ -4,7 +4,9 @@ import com.poly.assignment.entity.KichThuoc;
 import com.poly.assignment.util.PageUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -25,41 +27,30 @@ public class KichThuocService {
 
     public List<KichThuoc> findAll(String status) {
         if (status.equals("true")) return listKichThuoc.stream()
-                .filter(sp -> sp.getTrangThai())
+                .filter(item -> item.getTrangThai())
                 .collect(Collectors.toList());
         if (status.equals("false")) return listKichThuoc.stream()
-                .filter(sp -> !sp.getTrangThai())
+                .filter(item -> !item.getTrangThai())
                 .collect(Collectors.toList());
         return listKichThuoc;
     }
 
     public KichThuoc findById(String id) {
-        for (KichThuoc kichThuoc: listKichThuoc) {
-            if (kichThuoc.getId().equals(id)) {
-                return kichThuoc;
-            }
-        }
-
-        return null;
+        return listKichThuoc.stream().filter(item -> item.getId().equals(id)).findFirst().orElse(null);
     }
 
     public List<KichThuoc> findByKey(String key) {
-        List<KichThuoc> result = new ArrayList<>();
-        for (KichThuoc kichThuoc: listKichThuoc) {
-            if (kichThuoc.getMaKT().contains(key) || kichThuoc.getTen().contains(key)) {
-                result.add(kichThuoc);
-            }
-        }
-
-        return result;
+        return listKichThuoc.stream()
+                .filter(item -> item.getMaKT().contains(key) || item.getTen().contains(key))
+                .collect(Collectors.toList());
     }
 
-    public void create(KichThuoc kichThuoc) {
+    public void create(KichThuoc kichThuoc) throws IOException {
         kichThuoc.setId(UUID.randomUUID().toString());
         listKichThuoc.add(kichThuoc);
     }
 
-    public void update(KichThuoc kichThuoc) {
+    public void update(KichThuoc kichThuoc) throws IOException {
         for (int i = 0; i < listKichThuoc.size(); i++) {
             if (listKichThuoc.get(i).getId().equals(kichThuoc.getId())) {
                 listKichThuoc.set(i, kichThuoc);
@@ -68,14 +59,7 @@ public class KichThuocService {
     }
 
     public void delete(String id) {
-        List<KichThuoc> deList = new ArrayList<>();
-        for (int i = 0; i < listKichThuoc.size(); i++) {
-            if (listKichThuoc.get(i).getId().equals(id)) {
-                deList.add(listKichThuoc.get(i));
-            }
-        }
-
-        listKichThuoc.removeAll(deList);
+        listKichThuoc.remove(findById(id));
     }
 
 }

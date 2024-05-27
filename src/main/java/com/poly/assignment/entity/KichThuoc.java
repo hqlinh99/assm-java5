@@ -17,13 +17,13 @@ public class KichThuoc {
 
     private String id;
 
-    @NotBlank(message = "Vui long nhap ma kich thuoc")
+    @NotBlank(message = "Vui lòng nhập mã kích thước!")
     private String maKT;
 
-    @NotBlank(message = "Vui long nhap ten kich thuoc")
+    @NotBlank(message = "Vui lòng nhập tên kích thước!")
     private String ten;
 
-    @NotNull(message = "Vui long chon trang thai")
+    @NotNull(message = "Vui lòng chọn trạng thái!")
     private Boolean trangThai;
 
 }

@@ -29,8 +29,26 @@ public class SanPhamChiTietController {
 
     private final MauSacService mauSacService;
 
-    @GetMapping("/product-{pid}/details/table")
+    @GetMapping("/product-{pid}/details")
     public String productDetailPage(@PathVariable("pid") String pid,
+                                    @ModelAttribute("sanPhamChiTiet") SanPhamChiTiet sanPhamChiTiet,
+                                    @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+                                    @RequestParam(value = "pageSize", required = false, defaultValue = "8") Integer pageSize,
+                                    Model model) {
+        SanPham sanPham = sanPhamService.findById(pid);
+        if (sanPham == null) return "redirect:/";
+        model.addAttribute("sanPham", sanPham);
+        Page<SanPhamChiTiet> sanPhamChiTietPage = PageUtil.createPage(sanPhamChiTietService.findAllSanPhamChiTietBySanPhamId(pid), page, pageSize);
+        model.addAttribute("productDetails", sanPhamChiTietPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("pageSize", pageSize);
+        model.addAttribute("totalPages", sanPhamChiTietPage.getTotalPages());
+        model.addAttribute("cart", gioHangService.findAll());
+        return "/product-details.jsp";
+    }
+
+    @GetMapping("/product-{pid}/details/table")
+    public String productDetailTablePage(@PathVariable("pid") String pid,
                                     @ModelAttribute("sanPhamChiTiet") SanPhamChiTiet sanPhamChiTiet,
                                     @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
                                     @RequestParam(value = "pageSize", required = false, defaultValue = "8") Integer pageSize,

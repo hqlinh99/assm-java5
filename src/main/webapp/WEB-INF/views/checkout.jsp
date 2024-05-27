@@ -181,10 +181,10 @@
                                     <!--begin::Input group-->
                                     <div class="fv-row">
                                         <!--begin::Label-->
-                                        <label class="form-label">Order ID</label>
+                                        <label class="form-label">Tổng tiền</label>
                                         <!--end::Label-->
                                         <!--begin::Auto-generated ID-->
-                                        <div class="fw-bold fs-3">#12594</div>
+                                        <div class="fw-bold fs-3">${cartService.getTongTien()}</div>
                                         <!--end::Input-->
                                     </div>
                                     <!--end::Input group-->

@@ -60,7 +60,7 @@
                             <!--begin::Form-->
                             <form:form id="kt_account_profile_details_form"
                                        class="form fv-plugins-bootstrap5 fv-plugins-framework"
-                                       action="/employee/create?id=${nhanVien.id}" method="post"
+                                       action="/employees/create?id=${nhanVien.id}" method="post"
                                        modelAttribute="nhanVien"
                                        enctype="multipart/form-data">
                                 <!--begin::Card body-->
@@ -186,6 +186,42 @@
                                         <!--end::Input-->
                                         <!--begin::Description-->
                                         <div class="text-muted fs-7">Nhập mật khẩu.</div>
+                                        <!--end::Description-->
+                                    </div>
+                                    <!--end::Input group-->
+                                    <!--begin::Input group-->
+                                    <div class="mb-10 fv-row">
+                                        <!--begin::Label-->
+                                        <label class="required form-label">Chức vụ</label>
+                                        <!--end::Label-->
+                                        <!--begin::Error-->
+                                        <form:errors path="matKhau" class="badge badge-light-danger"/>
+                                        <!--end::Error-->
+                                        <!--begin::Input-->
+                                        <div class="d-flex gap-2">
+                                            <!--begin::Radio-->
+                                            <div class="form-check form-check-custom form-check-solid">
+                                                <input class="form-check-input" name="chucVu" type="radio"
+                                                       value="true" id="ql" checked/>
+                                                <label class="form-check-label" for="ql">
+                                                    Quản lý
+                                                </label>
+                                            </div>
+                                            <!--end::Radio-->
+                                            <!--begin::Radio-->
+                                            <div class="form-check form-check-danger form-check-solid">
+                                                <input class="form-check-input" name="chucVu" type="radio"
+                                                       value="false"
+                                                       id="nv" ${nhanVien.chucVu == false ? "checked" : ""}/>
+                                                <label class="form-check-label" for="nv">
+                                                    Nhân viên
+                                                </label>
+                                            </div>
+                                            <!--end::Radio-->
+                                        </div>
+                                        <!--end::Input-->
+                                        <!--begin::Description-->
+                                        <div class="text-muted fs-7">Chọn chức vụ.</div>
                                         <!--end::Description-->
                                     </div>
                                     <!--end::Input group-->
@@ -366,13 +402,13 @@
                                                      data-kt-menu="true">
                                                     <!--begin::Menu item-->
                                                     <div class="menu-item px-3">
-                                                        <a href="/employee/update?id=${employee.id}"
+                                                        <a href="/employees/update?id=${employee.id}"
                                                            class="menu-link px-3">Sửa thông tin</a>
                                                     </div>
                                                     <!--end::Menu item-->
                                                     <!--begin::Menu item-->
                                                     <div class="menu-item px-3">
-                                                        <a href="/employees/delete?id=${employee.id}"
+                                                        <a href="/employeess/delete?id=${employee.id}"
                                                            class="menu-link px-3"
                                                            data-kt-ecommerce-employee-filter="delete_row">Xoá nhân viên</a>
                                                     </div>

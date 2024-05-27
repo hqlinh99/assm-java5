@@ -29,7 +29,7 @@
                     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                         <!--begin::Item-->
                         <li class="breadcrumb-item text-muted">
-                            <a href="/" class="text-muted text-hover-primary">Home</a>
+                            <a href="/" class="text-muted text-hover-primary">Trang chủ</a>
                         </li>
                         <!--end::Item-->
                     </ul>
@@ -333,7 +333,7 @@
                                                      data-kt-menu="true">
                                                     <!--begin::Menu item-->
                                                     <div class="menu-item px-3">
-                                                        <a href="/product-${product.id}/details-table"
+                                                        <a href="/product-${product.id}/details/table"
                                                            class="menu-link px-3">Biến thể</a>
                                                     </div>
                                                     <!--end::Menu item-->

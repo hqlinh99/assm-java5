@@ -31,6 +31,7 @@ public class HoaDonController {
     @GetMapping("/checkout")
     public String checkoutPage(Model model) {
         model.addAttribute("cart", gioHangService.findAll());
+        model.addAttribute("cartService", gioHangService);
         model.addAttribute("customers", khachHangService.findAll("true"));
         return "/checkout.jsp";
     }

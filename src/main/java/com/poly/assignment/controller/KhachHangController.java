@@ -1,7 +1,5 @@
 package com.poly.assignment.controller;
-
 import com.poly.assignment.entity.KhachHang;
-import com.poly.assignment.entity.SanPham;
 import com.poly.assignment.service.KhachHangService;
 import com.poly.assignment.util.PageUtil;
 import jakarta.validation.Valid;
@@ -13,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -29,7 +28,7 @@ public class KhachHangController {
                          @RequestParam(value = "key", required = false) String key,
                          @RequestParam(value = "status", required = false, defaultValue = "all") String status,
                          @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-                         @RequestParam(value = "pageSize", required = false, defaultValue = "5") Integer pageSize,
+                         @RequestParam(value = "pageSize", required = false, defaultValue = "8") Integer pageSize,
                          Model model) {
         if (key != null) {
             model.addAttribute("key", key);
@@ -45,21 +44,6 @@ public class KhachHangController {
         return "/customers-table.jsp";
     }
 
-    @GetMapping("/customer/{id}")
-    public KhachHang getCustomerById(@PathVariable("id") String id) {
-        return khachHangService.findById(id);
-    }
-
-    @GetMapping("/customer/search")
-    public String findByKey(@RequestParam("key") String key,
-                            @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-                            @RequestParam(value = "pageSize", required = false, defaultValue = "5") Integer pageSize,
-                            Model model) {
-        Page<KhachHang> khachHangPage = PageUtil.createPage(khachHangService.findByKey(key), page, pageSize);
-        model.addAttribute("customers", khachHangPage.getContent());
-        return "redirect:/customers/table";
-    }
-
     @ModelAttribute("status")
     public Map<Boolean, String> getStatus() {
         Map<Boolean, String> map = new LinkedHashMap<>();
@@ -68,13 +52,13 @@ public class KhachHangController {
         return map;
     }
 
-    @PostMapping("/customer/create")
+    @PostMapping("/customers/create")
     public String createCustomer(@Valid @ModelAttribute("khachHang") KhachHang khachHang,
-                                 BindingResult result,
-                                 @RequestParam(value = "id", required = false) String id,
-                                 @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-                                 @RequestParam(value = "pageSize", required = false, defaultValue = "5") Integer pageSize,
-                                 Model model) {
+                                BindingResult result,
+                                @RequestParam(value = "id", required = false) String id,
+                                @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+                                @RequestParam(value = "pageSize", required = false, defaultValue = "5") Integer pageSize,
+                                Model model) throws IOException {
         if (result.hasErrors()) {
             Page<KhachHang> khachHangPage = PageUtil.createPage(khachHangService.findAll("all"), page, pageSize);
             model.addAttribute("customers", khachHangPage.getContent());
@@ -94,13 +78,12 @@ public class KhachHangController {
         return "redirect:/customers/table";
     }
 
-    @GetMapping("/customer/update")
+    @GetMapping("/customers/update")
     public String updateCustomer(@RequestParam("id") String id,
-                                 @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-                                 @RequestParam(value = "pageSize", required = false, defaultValue = "5") Integer pageSize,
-                                 Model model) {
-        KhachHang khachHang1 = khachHangService.findById(id);
-        model.addAttribute("khachHang", khachHang1);
+                                @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+                                @RequestParam(value = "pageSize", required = false, defaultValue = "5") Integer pageSize,
+                                Model model) {
+        model.addAttribute("khachHang", khachHangService.findById(id));
         Page<KhachHang> khachHangPage = PageUtil.createPage(khachHangService.findAll("all"), page, pageSize);
         model.addAttribute("customers", khachHangPage.getContent());
         model.addAttribute("currentPage", page);
@@ -112,6 +95,7 @@ public class KhachHangController {
     @GetMapping("/customers/delete")
     public String deleteCustomer(@RequestParam("id") String id) {
         khachHangService.delete(id);
+
         return "redirect:/customers/table";
     }
 

@@ -60,7 +60,7 @@
                             <!--begin::Form-->
                             <form:form id="kt_account_profile_details_form"
                                   class="form fv-plugins-bootstrap5 fv-plugins-framework"
-                                  action="/customer/create?id=${khachHang.id}" method="post" modelAttribute="khachHang">
+                                  action="/customers/create?id=${khachHang.id}" method="post" modelAttribute="khachHang">
                                 <!--begin::Card body-->
                                 <div class="card-body pt-0">
                                     <!--begin::Input group-->
@@ -190,7 +190,7 @@
                                            class="form-control form-control-solid w-250px ps-12 me-2"
                                            placeholder="Tìm kiếm khách hàng..."/>
 
-                                    <button onclick="location.href='/products/table?key='+document.getElementById('search-input').value"
+                                    <button onclick="location.href='/customers/table?key='+document.getElementById('search-input').value"
                                             class="btn btn-primary">
                                         Tìm kiếm
                                     </button>
@@ -202,11 +202,14 @@
                                         <!--begin::Select2-->
                                         <select class="form-select form-select-solid" data-control="select2"
                                                 data-hide-search="true" data-placeholder="Status"
-                                                data-kt-ecommerce-customer-filter="status">
-                                            <option></option>
+                                                data-kt-ecommerce-product-filter="status"
+                                                name="status"
+                                                onchange="location.href='/customers/table?page=0&pageSize=${pageSize}&status='+this.value">
                                             <option value="all">Tất cả</option>
-                                            <option value="published">Hoạt động</option>
-                                            <option value="scheduled">Bị khoá</option>
+                                            <option value="true" ${status == 'true' ? "selected" : ""}>Hoạt động
+                                            </option>
+                                            <option value="false" ${status == 'false' ? "selected" : ""}>Bị khoá
+                                            </option>
                                         </select>
                                         <!--end::Select2-->
                                     </div>
@@ -268,7 +271,7 @@
                                                      data-kt-menu="true">
                                                     <!--begin::Menu item-->
                                                     <div class="menu-item px-3">
-                                                        <a href="/customer/update?id=${customer.id}"
+                                                        <a href="/customers/update?id=${customer.id}"
                                                            class="menu-link px-3">Sửa thông tin</a>
                                                     </div>
                                                     <!--end::Menu item-->

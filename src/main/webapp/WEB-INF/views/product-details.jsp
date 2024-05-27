@@ -143,24 +143,26 @@
                             </c:forEach>
                         </div>
                         <!--end::Row-->
-                        <!--begin::Pagination-->
-                        <ul class="pagination">
-                            <li class="page-item previous ${currentPage == 0 ? 'disabled' : ''}">
-                                <a href="/product-${pid}/details?page=${currentPage - 1}&pageSize=${pageSize}"
-                                   class="page-link"><i class="previous"></i></a>
-                            </li>
-                            <c:forEach begin="0" end="${totalPages - 1}" var="pageNumber">
-                                <li class="page-item ${currentPage == pageNumber ? 'active' : ''}">
-                                    <a href="/product-${pid}/details?page=${pageNumber}&pageSize=${pageSize}"
-                                       class="page-link">${pageNumber + 1}</a>
+                        <c:if test="${totalPages > 0}">
+                            <!--begin::Pagination-->
+                            <ul class="pagination">
+                                <li class="page-item previous ${currentPage == 0 ? 'disabled' : ''}">
+                                    <a href="/product-${pid}/details?page=${currentPage - 1}&pageSize=${pageSize}"
+                                       class="page-link"><i class="previous"></i></a>
                                 </li>
-                            </c:forEach>
-                            <li class="page-item next">
-                                <a href="/product-${pid}/details?page=${currentPage + 1}&pageSize=${pageSize}"
-                                   class="page-link"><i class="next"></i></a>
-                            </li>
-                        </ul>
-                        <!--end::Pagination-->
+                                <c:forEach begin="0" end="${totalPages - 1}" var="pageNumber">
+                                    <li class="page-item ${currentPage == pageNumber ? 'active' : ''}">
+                                        <a href="/product-${pid}/details?page=${pageNumber}&pageSize=${pageSize}"
+                                           class="page-link">${pageNumber + 1}</a>
+                                    </li>
+                                </c:forEach>
+                                <li class="page-item next">
+                                    <a href="/product-${pid}/details?page=${currentPage + 1}&pageSize=${pageSize}"
+                                       class="page-link"><i class="next"></i></a>
+                                </li>
+                            </ul>
+                            <!--end::Pagination-->
+                        </c:if>
                     </div>
                     <!--end::Col-->
                 </div>

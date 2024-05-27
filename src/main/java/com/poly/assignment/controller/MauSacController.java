@@ -1,5 +1,4 @@
 package com.poly.assignment.controller;
-
 import com.poly.assignment.entity.MauSac;
 import com.poly.assignment.service.MauSacService;
 import com.poly.assignment.util.PageUtil;
@@ -11,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -22,32 +22,23 @@ public class MauSacController {
 
     @GetMapping("/colors/table")
     public String pTable(@ModelAttribute("mauSac") MauSac mauSac,
-                         @RequestParam(value = "key", required = false) Integer key,
+                         @RequestParam(value = "key", required = false) String key,
                          @RequestParam(value = "status", required = false, defaultValue = "all") String status,
                          @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-                         @RequestParam(value = "pageSize", required = false, defaultValue = "5") Integer pageSize,
+                         @RequestParam(value = "pageSize", required = false, defaultValue = "8") Integer pageSize,
                          Model model) {
-        Page<MauSac> mauSacPage = PageUtil.createPage(mauSacService.findAll(status), page, pageSize);
-        model.addAttribute("colors", mauSacPage.getContent());
-        model.addAttribute("currentPage", page);
-        model.addAttribute("pageSize", pageSize);
-        model.addAttribute("totalPages", mauSacPage.getTotalPages());
+        if (key != null) {
+            model.addAttribute("key", key);
+            model.addAttribute("colors", mauSacService.findByKey(key));
+        } else {
+            Page<MauSac> mauSacPage = PageUtil.createPage(mauSacService.findAll(status), page, pageSize);
+            model.addAttribute("colors", mauSacPage.getContent());
+            model.addAttribute("currentPage", page);
+            model.addAttribute("pageSize", pageSize);
+            model.addAttribute("totalPages", mauSacPage.getTotalPages());
+            model.addAttribute("status", status);
+        }
         return "/colors-table.jsp";
-    }
-
-    @GetMapping("/color/{id}")
-    public MauSac getColorById(@PathVariable("id") String id) {
-        return mauSacService.findById(id);
-    }
-
-    @GetMapping("/color/search")
-    public String findByKey(@RequestParam("key") String key,
-                            @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-                            @RequestParam(value = "pageSize", required = false, defaultValue = "5") Integer pageSize,
-                            Model model) {
-        Page<MauSac> mauSacPage = PageUtil.createPage(mauSacService.findByKey(key), page, pageSize);
-        model.addAttribute("colors", mauSacPage.getContent());
-        return "redirect:/colors/table";
     }
 
     @ModelAttribute("status")
@@ -58,13 +49,13 @@ public class MauSacController {
         return map;
     }
 
-    @PostMapping("/color/create")
-    public String createColor(@Valid @ModelAttribute("mauSac") MauSac mauSac,
-                             BindingResult result,
-                             @RequestParam(value = "id", required = false) String id,
-                             @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-                             @RequestParam(value = "pageSize", required = false, defaultValue = "5") Integer pageSize,
-                             Model model) {
+    @PostMapping("/colors/create")
+    public String createProduct(@Valid @ModelAttribute("mauSac") MauSac mauSac,
+                                BindingResult result,
+                                @RequestParam(value = "pid", required = false) String pid,
+                                @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+                                @RequestParam(value = "pageSize", required = false, defaultValue = "5") Integer pageSize,
+                                Model model) throws IOException {
         if (result.hasErrors()) {
             Page<MauSac> mauSacPage = PageUtil.createPage(mauSacService.findAll("all"), page, pageSize);
             model.addAttribute("colors", mauSacPage.getContent());
@@ -74,8 +65,8 @@ public class MauSacController {
             return "/colors-table.jsp";
         }
 
-        if (!id.isBlank()) {
-            mauSac.setId(id);
+        if (pid != null && !pid.isBlank()) {
+            mauSac.setId(pid);
             mauSacService.update(mauSac);
         } else {
             mauSacService.create(mauSac);
@@ -84,13 +75,12 @@ public class MauSacController {
         return "redirect:/colors/table";
     }
 
-    @GetMapping("/color/update")
-    public String updateColor(@RequestParam("id") String id,
-                             @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-                             @RequestParam(value = "pageSize", required = false, defaultValue = "5") Integer pageSize,
-                             Model model) {
-        MauSac mauSac1 = mauSacService.findById(id);
-        model.addAttribute("mauSac", mauSac1);
+    @GetMapping("/colors/update")
+    public String updateProduct(@RequestParam("pid") String pid,
+                                @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+                                @RequestParam(value = "pageSize", required = false, defaultValue = "5") Integer pageSize,
+                                Model model) {
+        model.addAttribute("mauSac", mauSacService.findById(pid));
         Page<MauSac> mauSacPage = PageUtil.createPage(mauSacService.findAll("all"), page, pageSize);
         model.addAttribute("colors", mauSacPage.getContent());
         model.addAttribute("currentPage", page);
@@ -100,8 +90,9 @@ public class MauSacController {
     }
 
     @GetMapping("/colors/delete")
-    public String deleteColor(@RequestParam("id") String id) {
-        mauSacService.delete(id);
+    public String deleteProduct(@RequestParam("pid") String pid) {
+        mauSacService.delete(pid);
+
         return "redirect:/colors/table";
     }
 

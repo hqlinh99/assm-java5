@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class GioHangService {
@@ -50,6 +51,11 @@ public class GioHangService {
         GioHang gioHangResult = findByProductDetailId(pdid);
         if (gioHangResult != null)
             gioHangList.remove(gioHangResult);
+    }
+
+    public double getTongTien()
+    {
+        return gioHangList.stream().mapToDouble(item -> item.getSanPhamChiTiet().getDonGia() * item.getQuantity()).sum();
     }
 
     public void deleteAll() {

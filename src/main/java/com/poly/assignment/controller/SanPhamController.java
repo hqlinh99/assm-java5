@@ -23,12 +23,6 @@ public class SanPhamController {
 
     private final SanPhamService sanPhamService;
 
-    private final SanPhamChiTietService sanPhamChiTietService;
-
-    private final GioHangService gioHangService;
-
-    private final FileUploadService fileUploadService;
-
     @GetMapping("/products/table")
     public String pTable(@ModelAttribute("sanPham") SanPham sanPham,
                          @RequestParam(value = "key", required = false) String key,
