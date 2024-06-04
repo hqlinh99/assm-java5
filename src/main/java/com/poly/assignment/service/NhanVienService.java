@@ -1,9 +1,7 @@
 package com.poly.assignment.service;
 
 import com.poly.assignment.entity.NhanVien;
-import com.poly.assignment.util.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -68,7 +66,10 @@ public class NhanVienService {
     public void update(NhanVien nhanVien, MultipartFile file) throws IOException {
         for (int i = 0; i < listNhanVien.size(); i++) {
             if (listNhanVien.get(i).getId().equals(nhanVien.getId())) {
-                nhanVien.setHinhAnh(fileUploadService.uploadFile(file));
+                String anh = fileUploadService.uploadFile(file);
+                if (anh != null)
+                    nhanVien.setHinhAnh(anh);
+                else nhanVien.setHinhAnh(listNhanVien.get(i).getHinhAnh());
                 listNhanVien.set(i, nhanVien);
             }
         }

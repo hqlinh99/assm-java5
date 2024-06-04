@@ -61,7 +61,8 @@
                             <!--begin::Form-->
                             <form:form id="kt_account_profile_details_form"
                                        class="form fv-plugins-bootstrap5 fv-plugins-framework"
-                                       action="/products/create?pid=${sanPham.id}" method="post" modelAttribute="sanPham"
+                                       action="/products/create?pid=${sanPham.id}" method="post"
+                                       modelAttribute="sanPham"
                                        enctype="multipart/form-data">
                                 <!--begin::Card body-->
                                 <div class="card-body pt-0">
@@ -285,7 +286,7 @@
                                     </tr>
                                     </thead>
                                     <tbody class="fw-semibold text-gray-600">
-                                    <c:forEach items="${products}" var="product" varStatus="i">
+                                    <c:forEach items="${ePage.getContent()}" var="product" varStatus="i">
                                         <tr>
                                             <td>
                                                 <div class="form-check form-check-sm form-check-custom form-check-solid">

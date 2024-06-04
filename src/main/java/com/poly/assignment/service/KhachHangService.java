@@ -1,8 +1,6 @@
 package com.poly.assignment.service;
 
 import com.poly.assignment.entity.KhachHang;
-import com.poly.assignment.util.PageUtil;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

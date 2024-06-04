@@ -240,7 +240,7 @@
                                                         <a href="apps/ecommerce/catalog/edit-product.html"
                                                            class="symbol symbol-50px">
                                                             <span class="symbol-label"
-                                                                  style="background-image:url('${invoice.sanPhamChiTiet.hinhAnh}');"></span>
+                                                                  style="background-image:url('${invoiceDetail.sanPhamChiTiet.hinhAnh}');"></span>
                                                         </a>
                                                         <!--end::Thumbnail-->
                                                         <div class="ms-5">
@@ -307,11 +307,11 @@
                                         </tbody>
                                     </table>
                                     <!--end::Table-->
-                                    <!--begin::Pagination-->
-                                    <jsp:include page="/WEB-INF/components/pagination.jsp">
-                                        <jsp:param name="e" value="products"/>
-                                    </jsp:include>
-                                    <!--end::Pagination-->
+<%--                                    <!--begin::Pagination-->--%>
+<%--                                    <jsp:include page="/WEB-INF/components/pagination.jsp">--%>
+<%--                                        <jsp:param name="e" value="products"/>--%>
+<%--                                    </jsp:include>--%>
+<%--                                    <!--end::Pagination-->--%>
                                 </div>
                                 <!--end::Card body-->
                             </div>

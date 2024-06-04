@@ -2,7 +2,7 @@ package com.poly.assignment.controller;
 
 import com.poly.assignment.entity.*;
 import com.poly.assignment.service.*;
-import com.poly.assignment.util.PageUtil;
+import com.poly.assignment.util.PageUtils;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -27,18 +26,14 @@ public class SanPhamController {
     public String pTable(@ModelAttribute("sanPham") SanPham sanPham,
                          @RequestParam(value = "key", required = false) String key,
                          @RequestParam(value = "status", required = false, defaultValue = "all") String status,
-                         @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-                         @RequestParam(value = "pageSize", required = false, defaultValue = "8") Integer pageSize,
+                         @RequestParam(value = "page", required = false, defaultValue = "0") String page,
+                         @RequestParam(value = "pageSize", required = false, defaultValue = "8") String pageSize,
                          Model model) {
         if (key != null) {
             model.addAttribute("key", key);
-            model.addAttribute("products", sanPhamService.findByKey(key));
+            model.addAttribute("ePage", sanPhamService.findByKey(key));
         } else {
-            Page<SanPham> sanPhamPage = PageUtil.createPage(sanPhamService.findAll(status), page, pageSize);
-            model.addAttribute("products", sanPhamPage.getContent());
-            model.addAttribute("currentPage", page);
-            model.addAttribute("pageSize", pageSize);
-            model.addAttribute("totalPages", sanPhamPage.getTotalPages());
+            model.addAttribute("ePage", sanPhamService.findAll(page, pageSize, status));
             model.addAttribute("status", status);
         }
         return "/products-table.jsp";
@@ -57,15 +52,11 @@ public class SanPhamController {
                                 BindingResult result,
                                 MultipartFile file,
                                 @RequestParam(value = "pid", required = false) String pid,
-                                @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-                                @RequestParam(value = "pageSize", required = false, defaultValue = "5") Integer pageSize,
+                                @RequestParam(value = "page", required = false, defaultValue = "0") String page,
+                                @RequestParam(value = "pageSize", required = false, defaultValue = "5") String pageSize,
                                 Model model) throws IOException {
         if (result.hasErrors()) {
-            Page<SanPham> sanPhamPage = PageUtil.createPage(sanPhamService.findAll("all"), page, pageSize);
-            model.addAttribute("products", sanPhamPage.getContent());
-            model.addAttribute("currentPage", page);
-            model.addAttribute("pageSize", pageSize);
-            model.addAttribute("totalPages", sanPhamPage.getTotalPages());
+            model.addAttribute("ePage", sanPhamService.findAll(page, pageSize, null));
             return "/products-table.jsp";
         }
 
@@ -81,15 +72,11 @@ public class SanPhamController {
 
     @GetMapping("/products/update")
     public String updateProduct(@RequestParam("pid") String pid,
-                                @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-                                @RequestParam(value = "pageSize", required = false, defaultValue = "5") Integer pageSize,
+                                @RequestParam(value = "page", required = false, defaultValue = "0") String page,
+                                @RequestParam(value = "pageSize", required = false, defaultValue = "5") String pageSize,
                                 Model model) {
         model.addAttribute("sanPham", sanPhamService.findById(pid));
-        Page<SanPham> sanPhamPage = PageUtil.createPage(sanPhamService.findAll("all"), page, pageSize);
-        model.addAttribute("products", sanPhamPage.getContent());
-        model.addAttribute("currentPage", page);
-        model.addAttribute("pageSize", pageSize);
-        model.addAttribute("totalPages", sanPhamPage.getTotalPages());
+        model.addAttribute("ePage", sanPhamService.findAll(page, pageSize, null));
         return "/products-table.jsp";
     }
 

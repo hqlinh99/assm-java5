@@ -43,7 +43,7 @@
                 </tr>
                 </thead>
                 <tbody class="fw-semibold text-gray-600">
-                <c:forEach items="${cart}" var="cartItem">
+                <c:forEach items="${cartService.findAll()}" var="cartItem">
                     <tr>
                         <td>
                             <div class="d-flex align-items-center"
@@ -85,7 +85,7 @@
             <!--end::Table-->
             <!--begin::Total price-->
             <div class="fw-bold fs-4 text-end">Tổng tiền: $
-                <span id="kt_ecommerce_edit_order_total_price">0.00</span></div>
+                <span id="kt_ecommerce_edit_order_total_price">${cartService.getTongTien()}</span></div>
             <!--end::Total price-->
         </div>
         <!--end::Card body-->

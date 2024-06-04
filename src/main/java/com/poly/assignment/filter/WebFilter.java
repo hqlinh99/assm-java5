@@ -36,7 +36,8 @@ public class WebFilter implements Filter {
                         && httpServletRequest.getMethod().equals("POST"))
                     httpServletResponse.sendRedirect("/");
             } else {
-                httpServletResponse.sendRedirect("/login");
+//                if (!httpServletRequest.getRequestURI().equals("/"))
+                    httpServletResponse.sendRedirect("/login");
             }
         }
         chain.doFilter(request, response);

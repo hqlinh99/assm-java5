@@ -21,15 +21,15 @@ public class FileUploadService {
             String filename = StringUtils.cleanPath(multipartFile.getOriginalFilename());
             String uploadDir = servletContext.getRealPath("/WEB-INF/public/upload");
 
-            File uploadDirectory = new File(uploadDir);
-            if (!uploadDirectory.exists()) {
-                uploadDirectory.mkdirs();
+            File file = new File(uploadDir, filename);
+            if (file.exists()) {
+                // Nếu file đã tồn tại, trả về đường dẫn URL
+                return "http://localhost:9999/public/upload/" + filename;
+            } else {
+                // Nếu file chưa tồn tại, upload file và trả về đường dẫn URL
+                multipartFile.transferTo(file);
+                return "http://localhost:9999/public/upload/" + filename;
             }
-
-            File file = new File(uploadDirectory, filename);
-            multipartFile.transferTo(file);
-
-            return "http://localhost:9999/public/upload/" + filename;
         }
         return null;
     }

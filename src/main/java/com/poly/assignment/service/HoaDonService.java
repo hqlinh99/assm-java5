@@ -2,15 +2,10 @@ package com.poly.assignment.service;
 
 import com.poly.assignment.entity.HoaDon;
 import com.poly.assignment.entity.HoaDonChiTiet;
-import com.poly.assignment.entity.KhachHang;
-import com.poly.assignment.entity.NhanVien;
-import com.poly.assignment.util.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
