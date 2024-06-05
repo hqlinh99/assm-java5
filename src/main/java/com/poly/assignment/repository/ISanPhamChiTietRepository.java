@@ -21,6 +21,7 @@ public interface ISanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet,
             from product_details e
             where e.sanPham.id = :pid and (
                   e.maSPCT like %:key% or
+                  e.ten like %:key% or
                   e.kichThuoc.ten like %:key% or
                   e.mauSac.ten like %:key% or
                   e.sanPham.maSP like %:key% or

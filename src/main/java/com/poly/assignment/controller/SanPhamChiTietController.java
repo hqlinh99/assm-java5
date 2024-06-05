@@ -70,6 +70,9 @@ public class SanPhamChiTietController {
                                 @RequestParam(value = "pageSize", required = false, defaultValue = "5") String pageSize,
                                 Model model) throws IOException {
         if (result.hasErrors()) {
+            model.addAttribute("sizes", kichThuocRepository.findAll());
+            model.addAttribute("colors", mauSacRepository.findAll());
+            model.addAttribute("sanPham", sanPhamRepository.findById(pid).orElse(null));
             model.addAttribute("ePage", sanPhamChiTietService.findAllBySanPhamId(page, pageSize, pid, null));
             return "/product-details-table.jsp";
         }
@@ -102,7 +105,7 @@ public class SanPhamChiTietController {
                                 @PathVariable("pid") String pid) {
         sanPhamChiTietService.delete(id);
 
-        return "redirect:/products/table";
+        return "redirect:/product-" + pid + "/details/table";
     }
 
 }

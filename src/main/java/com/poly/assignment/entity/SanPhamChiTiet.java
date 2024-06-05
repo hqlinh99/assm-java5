@@ -46,12 +46,12 @@ public class SanPhamChiTiet {
     private SanPham sanPham;
 
     @Min(value = 1, message = "Vui lòng nhập số lượng > 0")
-    @NotNull(message = "Vui lòng nhập số lượng")
+    @NotNull(message = "Vui lòng nhập số lượng!")
     @Column(name = "so_luong")
     private Integer soLuong;
 
     @Min(value = 1, message = "Vui lòng nhập đơn giá > 0")
-    @NotNull(message = "Vui lòng nhập đơn giá")
+    @NotNull(message = "Vui lòng nhập đơn giá!")
     @Column(name = "don_gia")
     private Double donGia;
 
