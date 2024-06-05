@@ -1,16 +1,17 @@
 package com.poly.assignment.controller;
+
 import com.poly.assignment.entity.MauSac;
 import com.poly.assignment.service.MauSacService;
-import com.poly.assignment.util.PageUtils;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 

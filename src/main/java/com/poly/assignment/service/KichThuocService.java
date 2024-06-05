@@ -1,62 +1,46 @@
 package com.poly.assignment.service;
 
 import com.poly.assignment.entity.KichThuoc;
+import com.poly.assignment.repository.IKichThuocRepository;
+import com.poly.assignment.util.PageUtils;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
-
 @Service
+@RequiredArgsConstructor
 public class KichThuocService {
 
-    List<KichThuoc> listKichThuoc = new ArrayList<>();
+    private final IKichThuocRepository kichThuocRepository;
 
-    public KichThuocService() {
-        listKichThuoc.add(new KichThuoc("1", "KT01", "S", true));
-        listKichThuoc.add(new KichThuoc("2", "KT02", "M", true));
-        listKichThuoc.add(new KichThuoc("3", "KT03", "L", true));
-        listKichThuoc.add(new KichThuoc("4", "KT04", "XL", true));
-        listKichThuoc.add(new KichThuoc("5", "KT05", "XXL", true));
-    }
-
-    public List<KichThuoc> findAll(String status) {
-        if (status.equals("true")) return listKichThuoc.stream()
-                .filter(item -> item.getTrangThai())
-                .collect(Collectors.toList());
-        if (status.equals("false")) return listKichThuoc.stream()
-                .filter(item -> !item.getTrangThai())
-                .collect(Collectors.toList());
-        return listKichThuoc;
+    public Page<KichThuoc> findAll(String page, String pageSize, String status) {
+        if (status != null && !status.equals("all")) {
+            return kichThuocRepository.findAllByTrangThai(PageUtils.getPageable(page, pageSize), Boolean.parseBoolean(status));
+        }
+        return kichThuocRepository.findAll(PageUtils.getPageable(page, pageSize));
     }
 
     public KichThuoc findById(String id) {
-        return listKichThuoc.stream().filter(item -> item.getId().equals(id)).findFirst().orElse(null);
+        return kichThuocRepository.findById(id).orElse(null);
     }
 
-    public List<KichThuoc> findByKey(String key) {
-        return listKichThuoc.stream()
-                .filter(item -> item.getMaKT().contains(key) || item.getTen().contains(key))
-                .collect(Collectors.toList());
+    public Page<KichThuoc> findByKey(String key) {
+        return new PageImpl<>(kichThuocRepository.findAllByKey(key));
     }
 
-    public void create(KichThuoc kichThuoc) throws IOException {
-        kichThuoc.setId(UUID.randomUUID().toString());
-        listKichThuoc.add(kichThuoc);
+    public void create(KichThuoc kichThuoc) {
+        kichThuocRepository.save(kichThuoc);
     }
 
-    public void update(KichThuoc kichThuoc) throws IOException {
-        for (int i = 0; i < listKichThuoc.size(); i++) {
-            if (listKichThuoc.get(i).getId().equals(kichThuoc.getId())) {
-                listKichThuoc.set(i, kichThuoc);
-            }
+    public void update(KichThuoc kichThuoc) {
+        if (kichThuoc.getId() != null) {
+            kichThuocRepository.save(kichThuoc);
         }
     }
 
     public void delete(String id) {
-        listKichThuoc.remove(findById(id));
+        kichThuocRepository.deleteById(id);
     }
 
 }
