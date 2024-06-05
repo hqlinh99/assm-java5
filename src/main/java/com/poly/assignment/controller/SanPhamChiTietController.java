@@ -1,132 +1,108 @@
-//package com.poly.assignment.controller;
-//
-//import com.poly.assignment.entity.SanPham;
-//import com.poly.assignment.entity.SanPhamChiTiet;
-//import com.poly.assignment.service.*;
-//import com.poly.assignment.util.PageUtils;
-//import jakarta.validation.Valid;
-//import lombok.RequiredArgsConstructor;
-//import org.springframework.data.domain.Page;
-//import org.springframework.stereotype.Controller;
-//import org.springframework.ui.Model;
-//import org.springframework.validation.BindingResult;
-//import org.springframework.web.bind.annotation.*;
-//import org.springframework.web.multipart.MultipartFile;
-//
-//import java.io.IOException;
-//
-//@Controller
-//@RequiredArgsConstructor
-//public class SanPhamChiTietController {
-//
-//    private final SanPhamChiTietService sanPhamChiTietService;
-//
-//    private final SanPhamService sanPhamService;
-//
-//    private final GioHangService gioHangService;
-//
-//    private final KichThuocService kichThuocService;
-//
-//    private final MauSacService mauSacService;
-//
-//    @GetMapping("/product-{pid}/details/table")
-//    public String productDetailTablePage(@PathVariable("pid") String pid,
-//                                    @ModelAttribute("sanPhamChiTiet") SanPhamChiTiet sanPhamChiTiet,
-//                                    @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-//                                    @RequestParam(value = "pageSize", required = false, defaultValue = "8") Integer pageSize,
-//                                    Model model) {
-//        SanPham sanPham = sanPhamService.findById(pid);
-//        if (sanPham == null) return "redirect:/products/table";
-//        model.addAttribute("sanPham", sanPham);
-//        model.addAttribute("sizes", kichThuocService.findAll("true"));
-//        model.addAttribute("colors", mauSacService.findAll("true"));
-//        Page<SanPhamChiTiet> sanPhamChiTietPage = PageUtils.createPage(sanPhamChiTietService.findAllSanPhamChiTietBySanPhamId(pid), page, pageSize);
-//        model.addAttribute("productDetails", sanPhamChiTietPage.getContent());
-//        model.addAttribute("currentPage", page);
-//        model.addAttribute("pageSize", pageSize);
-//        model.addAttribute("totalPages", sanPhamChiTietPage.getTotalPages());
-//        model.addAttribute("cart", gioHangService.findAll());
-//        return "/product-details-table.jsp";
-//    }
-//
-//    @GetMapping("/product-{pid}/details/search")
-//    public String findByKey(@PathVariable("pid") String pid,
-//                            @RequestParam("key") String key,
-//                            @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-//                            @RequestParam(value = "pageSize", required = false, defaultValue = "8") Integer pageSize,
-//                            Model model) {
-//        Page<SanPhamChiTiet> sanPhamChiTietPage = PageUtils.createPage(sanPhamChiTietService.findByKey(key), page, pageSize);
-//        model.addAttribute("productDetails", sanPhamChiTietPage.getContent());
-//        model.addAttribute("currentPage", page);
-//        model.addAttribute("pageSize", pageSize);
-//        model.addAttribute("totalPages", sanPhamChiTietPage.getTotalPages());
-//        return "redirect:/product-" + pid + "/details";
-//    }
-//
-//    @GetMapping("/product-{pid}/details-update")
-//    public String productDetailUpdatePage(@PathVariable("pid") String pid,
-//                                          @RequestParam(value = "pdid", required = false) String pdid,
-//                                          @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-//                                          @RequestParam(value = "pageSize", required = false, defaultValue = "8") Integer pageSize,
-//                                          Model model) {
-//        SanPham sanPham = sanPhamService.findById(pid);
-//        SanPhamChiTiet spct = sanPhamChiTietService.findById(pdid);
-//        if (sanPham == null) return "redirect:/products/table";
-//        else if (spct == null) return "redirect:/product-" + pid + "/details/table";
-//
-//        model.addAttribute("cart", gioHangService.findAll());
-//        model.addAttribute("sanPham", sanPham);
-//        model.addAttribute("sanPhamChiTiet", spct);
-//        model.addAttribute("sizes", kichThuocService.findAll("true"));
-//        model.addAttribute("colors", mauSacService.findAll("true"));
-//        Page<SanPhamChiTiet> sanPhamChiTietPage = PageUtils.createPage(sanPhamChiTietService.findAllSanPhamChiTietBySanPhamId(pid), page, pageSize);
-//        model.addAttribute("productDetails", sanPhamChiTietPage.getContent());
-//        model.addAttribute("currentPage", page);
-//        model.addAttribute("pageSize", pageSize);
-//        model.addAttribute("totalPages", sanPhamChiTietPage.getTotalPages());
-//        return "/product-details-table.jsp";
-//    }
-//
-//    @PostMapping("/product-{pid}/details/create")
-//    public String createProduct(@Valid @ModelAttribute("sanPhamChiTiet") SanPhamChiTiet sanPhamChiTiet,
-//                                BindingResult result,
-//                                MultipartFile file,
-//                                @PathVariable("pid") String pid,
-//                                @RequestParam(value = "pdid", required = false) String pdid,
-//                                @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-//                                @RequestParam(value = "pageSize", required = false, defaultValue = "5") Integer pageSize,
-//                                Model model) throws IOException {
-//        if (result.hasErrors()) {
-//            SanPham sanPham = sanPhamService.findById(pid);
-//            if (sanPham == null) return "redirect:/products/table";
-//            model.addAttribute("sanPham", sanPham);
-//            model.addAttribute("sizes", kichThuocService.findAll("true"));
-//            model.addAttribute("colors", mauSacService.findAll("true"));
-//            Page<SanPhamChiTiet> sanPhamChiTietPage = PageUtils.createPage(sanPhamChiTietService.findAllSanPhamChiTietBySanPhamId(pid), page, pageSize);
-//            model.addAttribute("productDetails", sanPhamChiTietPage.getContent());
-//            model.addAttribute("currentPage", page);
-//            model.addAttribute("pageSize", pageSize);
-//            model.addAttribute("totalPages", sanPhamChiTietPage.getTotalPages());
-//            model.addAttribute("cart", gioHangService.findAll());
-//            return "/product-details-table.jsp";
-//        }
-//
-//        if (pdid != null && !pdid.isBlank()) {
-//            sanPhamChiTiet.setId(pdid);
-//            sanPhamChiTietService.update(sanPhamChiTiet, pid, file);
-//        } else {
-//            sanPhamChiTietService.create(sanPhamChiTiet, pid, file);
-//        }
-//
-//        return "redirect:/product-" + pid + "/details/table";
-//    }
-//
-//    @GetMapping("/product-{pid}/details/delete")
-//    public String deleteProduct(@PathVariable("pid") String pid,
-//                                @RequestParam("pdid") String pdid) {
-//        sanPhamChiTietService.delete(pdid);
-//
-//        return "redirect:/product-" + pid + "/details/table";
-//    }
-//
-//}
+package com.poly.assignment.controller;
+
+import com.poly.assignment.entity.*;
+import com.poly.assignment.repository.IKichThuocRepository;
+import com.poly.assignment.repository.IMauSacRepository;
+import com.poly.assignment.repository.ISanPhamRepository;
+import com.poly.assignment.service.*;
+import com.poly.assignment.util.PageUtils;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+@Controller
+@RequiredArgsConstructor
+public class SanPhamChiTietController {
+
+    private final SanPhamChiTietService sanPhamChiTietService;
+    private final IKichThuocRepository kichThuocRepository;
+    private final IMauSacRepository mauSacRepository;
+    private final ISanPhamRepository sanPhamRepository;
+
+    @GetMapping("/product-{pid}/details/table")
+    public String pTable(@ModelAttribute("sanPhamChiTiet") SanPhamChiTiet sanPhamChiTiet,
+                         @PathVariable("pid") String pid,
+                         @RequestParam(value = "key", required = false) String key,
+                         @RequestParam(value = "status", required = false, defaultValue = "all") String status,
+                         @RequestParam(value = "page", required = false, defaultValue = "0") String page,
+                         @RequestParam(value = "pageSize", required = false, defaultValue = "8") String pageSize,
+                         Model model) {
+        if (pid != null) {
+            model.addAttribute("sizes", kichThuocRepository.findAll());
+            model.addAttribute("colors", mauSacRepository.findAll());
+            model.addAttribute("sanPham", sanPhamRepository.findById(pid).orElse(null));
+            if (key != null) {
+                model.addAttribute("key", key);
+                model.addAttribute("ePage", sanPhamChiTietService.findBySanPhamIdAndKey(pid, key));
+            } else {
+                model.addAttribute("ePage", sanPhamChiTietService.findAllBySanPhamId(page, pageSize, pid, status));
+                model.addAttribute("status", status);
+            }
+            return "/product-details-table.jsp";
+        }
+        return "redirect:/products/table";
+    }
+
+    @ModelAttribute("status")
+    public Map<Boolean, String> getStatus() {
+        Map<Boolean, String> map = new LinkedHashMap<>();
+        map.put(true, "Active");
+        map.put(false, "Blocked");
+        return map;
+    }
+
+    @PostMapping("/product-{pid}/details/create")
+    public String createProduct(@Valid @ModelAttribute("sanPhamChiTiet") SanPhamChiTiet sanPhamChiTiet,
+                                BindingResult result,
+                                @PathVariable("pid") String pid,
+                                MultipartFile file,
+                                @RequestParam(value = "id", required = false) String id,
+                                @RequestParam(value = "page", required = false, defaultValue = "0") String page,
+                                @RequestParam(value = "pageSize", required = false, defaultValue = "5") String pageSize,
+                                Model model) throws IOException {
+        if (result.hasErrors()) {
+            model.addAttribute("ePage", sanPhamChiTietService.findAllBySanPhamId(page, pageSize, pid, null));
+            return "/product-details-table.jsp";
+        }
+
+        if (id != null && !id.isBlank()) {
+            sanPhamChiTietService.update(sanPhamChiTiet, file);
+        } else {
+            sanPhamChiTietService.create(sanPhamChiTiet, file);
+        }
+
+        return "redirect:/product-" + pid + "/details/table";
+    }
+
+    @GetMapping("/product-{pid}/details/update")
+    public String updateProduct(@RequestParam("id") String id,
+                                @PathVariable("pid") String pid,
+                                @RequestParam(value = "page", required = false, defaultValue = "0") String page,
+                                @RequestParam(value = "pageSize", required = false, defaultValue = "5") String pageSize,
+                                Model model) {
+        model.addAttribute("sizes", kichThuocRepository.findAll());
+        model.addAttribute("colors", mauSacRepository.findAll());
+        model.addAttribute("sanPham", sanPhamRepository.findById(pid).orElse(null));
+        model.addAttribute("sanPhamChiTiet", sanPhamChiTietService.findById(id));
+        model.addAttribute("ePage", sanPhamChiTietService.findAllBySanPhamId(page, pageSize, pid, null));
+        return "/product-details-table.jsp";
+    }
+
+    @GetMapping("/product-{pid}/details/delete")
+    public String deleteProduct(@RequestParam("id") String id,
+                                @PathVariable("pid") String pid) {
+        sanPhamChiTietService.delete(id);
+
+        return "redirect:/products/table";
+    }
+
+}

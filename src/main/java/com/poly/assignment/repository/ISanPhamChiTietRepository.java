@@ -19,12 +19,13 @@ public interface ISanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet,
     @Query("""
             select e
             from product_details e
-            where e.maSPCT like %:key% or
+            where e.sanPham.id = :pid and (
+                  e.maSPCT like %:key% or
                   e.kichThuoc.ten like %:key% or
                   e.mauSac.ten like %:key% or
                   e.sanPham.maSP like %:key% or
-                  e.sanPham.ten like %:key%
+                  e.sanPham.ten like %:key%)
             """)
-    List<SanPhamChiTiet> findAllByKey(String key);
+    List<SanPhamChiTiet> findAllBySanPhamIdAndKey(String pid, String key);
 
 }

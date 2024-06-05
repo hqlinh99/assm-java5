@@ -61,7 +61,7 @@
                             <!--begin::Form-->
                             <form:form id="kt_account_profile_details_form"
                                        class="form fv-plugins-bootstrap5 fv-plugins-framework"
-                                       action="/product-${sanPham.id}/details/create?pdid=${sanPhamChiTiet.id}" method="post"
+                                       action="/product-${sanPham.id}/details/create?sanPham.id=${sanPham.id}&id=${sanPhamChiTiet.id}" method="post"
                                        modelAttribute="sanPhamChiTiet"
                                        enctype="multipart/form-data">
                                 <!--begin::Card body-->
@@ -169,7 +169,7 @@
                                                 data-placeholder="Chọn kích thước" name="kichThuoc.id">
                                             <c:forEach items="${sizes}" var="size">
                                                 <option value="${size.id}"${sanPhamChiTiet.kichThuoc.id == size.id ? "selected" : ""}>
-                                                        ${size.id} - ${size.ten}
+                                                        ${size.maKT} - ${size.ten}
                                                 </option>
                                             </c:forEach>
                                         </select>
@@ -191,7 +191,7 @@
                                                 data-placeholder="Chọn màu sắc" name="mauSac.id">
                                             <c:forEach items="${colors}" var="color">
                                                 <option value="${color.id}"${sanPhamChiTiet.kichThuoc.id == color.id ? "selected" : ""}>
-                                                        ${color.id} - ${color.ten}
+                                                        ${color.maMS} - ${color.ten}
                                                 </option>
                                             </c:forEach>
                                         </select>
@@ -417,13 +417,13 @@
                                                      data-kt-menu="true">
                                                     <!--begin::Menu item-->
                                                     <div class="menu-item px-3">
-                                                        <a href="/product-${sanPham.id}/details-update?pdid=${productDetail.id}"
+                                                        <a href="/product-${sanPham.id}/details/update?id=${productDetail.id}"
                                                            class="menu-link px-3">Sửa thông tin</a>
                                                     </div>
                                                     <!--end::Menu item-->
                                                     <!--begin::Menu item-->
                                                     <div class="menu-item px-3">
-                                                        <a href="/product-${sanPham.id}/details/delete?pdid=${productDetail.id}"
+                                                        <a href="/product-${sanPham.id}/details/delete?id=${productDetail.id}"
                                                            class="menu-link px-3"
                                                            data-kt-ecommerce-product-filter="delete_row">Xoá biến thể
                                                         </a>

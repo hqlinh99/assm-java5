@@ -48,7 +48,7 @@ public class GeneralController {
         SanPham sanPham = sanPhamService.findById(pid);
         if (sanPham == null) return "redirect:/";
         model.addAttribute("sanPham", sanPham);
-        model.addAttribute("ePage", sanPhamChiTietService.findAllSanPhamChiTietBySanPhamId(page, pageSize, null, pid));
+        model.addAttribute("ePage", sanPhamChiTietService.findAllBySanPhamId(page, pageSize, pid, null));
 
         model.addAttribute("cartService", gioHangService);
         return "/product-details.jsp";

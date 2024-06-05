@@ -47,6 +47,7 @@ public class NhanVienService {
             String anh = fileUploadService.uploadFile(file);
             if (anh != null)
                 nhanVien.setHinhAnh(anh);
+            else nhanVien.setHinhAnh(findById(nhanVien.getId()).getHinhAnh());
             nhanVienRepository.save(nhanVien);
         }
     }

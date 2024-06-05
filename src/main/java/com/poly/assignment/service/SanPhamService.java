@@ -44,6 +44,7 @@ public class SanPhamService {
             String anh = fileUploadService.uploadFile(file);
             if (anh != null)
                 sanPham.setHinhAnh(anh);
+            else sanPham.setHinhAnh(findById(sanPham.getId()).getHinhAnh());
             sanPhamRepository.save(sanPham);
         }
     }
