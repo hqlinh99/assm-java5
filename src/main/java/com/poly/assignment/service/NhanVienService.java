@@ -29,6 +29,10 @@ public class NhanVienService {
         return nhanVienRepository.findById(id).orElse(null);
     }
 
+    public NhanVien findByUsername(String username) {
+        return nhanVienRepository.findByTenDangNhap(username);
+    }
+
     public Page<NhanVien> findByKey(String key) {
         return new PageImpl<>(nhanVienRepository.findAllByKey(key));
     }

@@ -28,7 +28,6 @@ public class AuthService {
     public String login(Auth auth) throws JsonProcessingException {
         NhanVien nhanVien = nhanVienService.findByUsername(auth.getUsername());
 
-
         if (nhanVien != null) {
             if (!nhanVien.getTrangThai()) return "Tài khoản đã bị vô hiệu hoá!";
 

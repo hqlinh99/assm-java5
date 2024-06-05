@@ -10,6 +10,8 @@ import java.util.List;
 
 public interface INhanVienRepository extends JpaRepository<NhanVien, String> {
 
+    NhanVien findByTenDangNhap(String username);
+
     Page<NhanVien> findAllByTrangThai(Pageable pageable, boolean status);
 
     @Query(value = "select * from employees e where e.ma_nhan_vien like %:key% or e.ten like %:key%", nativeQuery = true)

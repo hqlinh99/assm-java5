@@ -354,7 +354,7 @@
                                     </tr>
                                     </thead>
                                     <tbody class="fw-semibold text-gray-600">
-                                    <c:forEach items="${employees}" var="employee" varStatus="i">
+                                    <c:forEach items="${ePage.getContent()}" var="employee" varStatus="i">
                                         <tr>
                                             <td>
                                                 <div class="form-check form-check-sm form-check-custom form-check-solid">

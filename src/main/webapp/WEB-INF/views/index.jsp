@@ -122,23 +122,23 @@
                         </div>
                         <!--end::Row-->
                         <!--begin::Pagination-->
-                        <ul class="pagination justify-content-end">
-                            <li class="page-item previous ${ePage.number == 0 ? 'disabled' : ''}">
-                                <a href="?page=${ePage.number - 1}&pageSize=${ePage.pageable.pageSize}&status=${status}"
-                                   class="page-link"><i class="previous"></i></a>
-                            </li>
-                            <c:forEach begin="0" end="${ePage.totalPages - 1}"
-                                       var="pageNumber">
-                                <li class="page-item ${ePage.number == pageNumber ? 'active' : ''}">
-                                    <a href="?page=${pageNumber}&pageSize=${ePage.pageable.pageSize}&status=${status}"
-                                       class="page-link">${pageNumber + 1}</a>
-                                </li>
-                            </c:forEach>
-                            <li class="page-item next">
-                                <a href="?page=${number + 1}&pageSize=${ePage.pageable.pageSize}&status=${status}"
-                                   class="page-link"><i class="next"></i></a>
-                            </li>
-                        </ul>
+<%--                        <ul class="pagination justify-content-end">--%>
+<%--                            <li class="page-item previous ${ePage.number == 0 ? 'disabled' : ''}">--%>
+<%--                                <a href="?page=${ePage.number - 1}&pageSize=${ePage.pageable.pageSize}&status=${status}"--%>
+<%--                                   class="page-link"><i class="previous"></i></a>--%>
+<%--                            </li>--%>
+<%--                            <c:forEach begin="0" end="${ePage.totalPages - 1}"--%>
+<%--                                       var="pageNumber">--%>
+<%--                                <li class="page-item ${ePage.number == pageNumber ? 'active' : ''}">--%>
+<%--                                    <a href="?page=${pageNumber}&pageSize=${ePage.pageable.pageSize}&status=${status}"--%>
+<%--                                       class="page-link">${pageNumber + 1}</a>--%>
+<%--                                </li>--%>
+<%--                            </c:forEach>--%>
+<%--                            <li class="page-item next">--%>
+<%--                                <a href="?page=${number + 1}&pageSize=${ePage.pageable.pageSize}&status=${status}"--%>
+<%--                                   class="page-link"><i class="next"></i></a>--%>
+<%--                            </li>--%>
+<%--                        </ul>--%>
                         <!--end::Pagination-->
                     </div>
                     <!--end::Col-->

@@ -362,7 +362,7 @@
                                     </tr>
                                     </thead>
                                     <tbody class="fw-semibold text-gray-600">
-                                    <c:forEach items="${productDetails}" var="productDetail" varStatus="i">
+                                    <c:forEach items="${ePage.getContent()}" var="productDetail" varStatus="i">
                                         <tr>
                                             <td class="pe-0">
                                                 <span class="fw-bold">${productDetail.maSPCT}</span>
