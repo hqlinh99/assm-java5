@@ -89,7 +89,7 @@
                                                     data-placeholder="Chọn nhân viên" name="nhanVien.id">
                                                 <c:forEach items="${employees}" var="employee">
                                                     <option value="${employee.id}" ${hoaDon.nhanVien.id == employee.id ? "selected" : ""}>
-                                                            ${employee.id} - ${employee.ten}
+                                                            ${employee.maNV         } - ${employee.ten}
                                                     </option>
                                                 </c:forEach>
                                             </select>
@@ -112,7 +112,7 @@
                                                     data-placeholder="Chọn khách hàng" name="khachHang.id">
                                                 <c:forEach items="${customers}" var="customer">
                                                     <option value="${customer.id}"${hoaDon.khachHang.id == customer.id ? "selected" : ""}>
-                                                            ${customer.id} - ${customer.ten}
+                                                            ${customer.maKH} - ${customer.ten}
                                                     </option>
                                                 </c:forEach>
                                             </select>
@@ -232,7 +232,7 @@
                                         </tr>
                                         </thead>
                                         <tbody class="fw-semibold text-gray-600">
-                                        <c:forEach items="${invoiceDetails}" var="invoiceDetail" varStatus="i">
+                                        <c:forEach items="${ePage.getContent()}" var="invoiceDetail" varStatus="i">
                                             <tr>
                                                 <td>
                                                     <div class="d-flex align-items-center">
@@ -245,7 +245,7 @@
                                                         <!--end::Thumbnail-->
                                                         <div class="ms-5">
                                                             <!--begin::Product detail-->
-                                                            <select class="form-select" data-control="select2"
+                                                            <select disabled class="form-select" data-control="select2"
                                                                     data-placeholder="Chọn sản phẩm chi tiết"
                                                                     onchange="location.href='/update-product-detail-in-invoice-detail?iid=${hoaDon.id}&idid=${invoiceDetail.id}&pdid='+this.value">
                                                                 <c:forEach items="${productDetails}"
@@ -280,7 +280,7 @@
                                                         <!--end::Input control-->
 
                                                         <!--begin::Increase control-->
-                                                        <button onclick="location.href='/increase-quantity-in-invoice-detail-${hoaDon.id}?idid=${invoiceDetail.id}'"
+                                                        <button disabled onclick="location.href='/increase-quantity-in-invoice-detail-${hoaDon.id}?idid=${invoiceDetail.id}'"
                                                                 type="button"
                                                                 class="btn btn-icon btn-active-color-gray-700 position-absolute translate-middle-y top-50 end-0">
                                                             <i class="ki-outline ki-plus-square fs-1"></i>
@@ -296,9 +296,12 @@
                                                 </td>
                                                 <td class="text-end pe-0" data-order="Scheduled">
                                                     <!--begin::Badges-->
-                                                    <div onclick="location.href='/update-status-invoice-detail?iid=${hoaDon.id}&idid=${invoiceDetail.id}'" class="badge cursor-pointer ${invoice.trangThai ? "badge-light-primary" : "badge-light-danger"}">
+                                                    <div class="badge ${invoiceDetail.trangThai ? "badge-light-primary" : "badge-light-danger"}">
                                                             ${invoiceDetail.trangThai ? "Hoạt động" : "Bị khoá"}
                                                     </div>
+<%--                                                    <div onclick="location.href='/update-status-invoice-detail?iid=${hoaDon.id}&idid=${invoiceDetail.id}'" class="badge cursor-pointer ${invoice.trangThai ? "badge-light-primary" : "badge-light-danger"}">--%>
+<%--                                                            ${invoiceDetail.trangThai ? "Hoạt động" : "Bị khoá"}--%>
+<%--                                                    </div>--%>
                                                     <!--end::Badges-->
                                                 </td>
 

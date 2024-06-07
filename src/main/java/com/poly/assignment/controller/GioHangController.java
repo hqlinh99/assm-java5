@@ -20,16 +20,13 @@ public class GioHangController {
 
     private final GioHangService gioHangService;
 
-    private final SanPhamChiTietService sanPhamChiTietService;
-
     @GetMapping("/add-to-cart")
     public String addToCart(
             @RequestParam("pid") String pid,
             @RequestParam("pdid") String pdid) {
         if (pdid != null) {
-            SanPhamChiTiet sanPhamChiTiet = sanPhamChiTietService.findById(pdid);
 
-            gioHangService.addToCart(new GioHang(UUID.randomUUID().toString(), sanPhamChiTiet, 1));
+            gioHangService.addToCart(pdid);
         }
         return "redirect:/product-" + pid + "/details";
 

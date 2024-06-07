@@ -46,7 +46,7 @@
             <div id="kt_app_content_container" class="app-container container-xxl">
                 <!--begin::Form-->
                 <form:form id="kt_ecommerce_edit_order_form" class="form d-flex flex-column flex-lg-row"
-                      action="/invoices/create" modelAttribute="hoaDon">
+                      action="/invoices/create?nhanVien.id=${nhanVien.id}&trangThai=true" modelAttribute="hoaDon">
 
                     <!--begin::Main column-->
                     <div class="d-flex flex-column flex-lg-row-fluid gap-7 gap-lg-10 mb-7 me-7">
@@ -68,7 +68,7 @@
                                         </tr>
                                         </thead>
                                         <tbody class="fw-semibold text-gray-600">
-                                        <c:forEach items="${cart}" var="cartItem">
+                                        <c:forEach items="${cartService.findAll()}" var="cartItem">
                                             <tr>
                                                 <td>
                                                     <div class="form-check form-check-sm form-check-custom form-check-solid">
@@ -201,7 +201,7 @@
                                                 data-placeholder="Chọn khách hàng" name="khachHang.id">
                                             <c:forEach items="${customers}" var="customer">
                                                 <option value="${customer.id}"${hoaDon.khachHang.id == customer.id ? "selected" : ""}>
-                                                        ${customer.id} - ${customer.ten}
+                                                        ${customer.maKH} - ${customer.ten}
                                                 </option>
                                             </c:forEach>
                                         </select>

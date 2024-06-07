@@ -1877,9 +1877,9 @@ if (document.documentElement) {
     if (kt_td_picker_localization)
         new tempusDominus.TempusDominus(kt_td_picker_localization, {
             localization: {
-                locale: "de",
+                locale: "sa",
                 startOfTheWeek: 1,
-                format: "dd/MM/yyyy"
+                format: "yyyy/MM/dd"
             }
         });
 </script>

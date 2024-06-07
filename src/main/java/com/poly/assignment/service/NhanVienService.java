@@ -30,7 +30,7 @@ public class NhanVienService {
     }
 
     public NhanVien findByUsername(String username) {
-        return nhanVienRepository.findByTenDangNhap(username);
+        return nhanVienRepository.findByTenDangNhap(username).orElse(null);
     }
 
     public Page<NhanVien> findByKey(String key) {

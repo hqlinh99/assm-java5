@@ -1,6 +1,8 @@
 package com.poly.assignment.service;
 
 import com.poly.assignment.entity.HoaDonChiTiet;
+import com.poly.assignment.entity.SanPham;
+import com.poly.assignment.entity.SanPhamChiTiet;
 import com.poly.assignment.repository.IHoaDonChiTietRepository;
 import com.poly.assignment.util.PageUtils;
 import lombok.RequiredArgsConstructor;
@@ -13,18 +15,17 @@ import java.util.List;
 @RequiredArgsConstructor
 public class HoaDonChiTietService {
 
-    private IHoaDonChiTietRepository hoaDonChiTietRepository;
+    private final IHoaDonChiTietRepository hoaDonChiTietRepository;
 
-    public Page<HoaDonChiTiet> getAll(String page, String pageSize) {
-        return hoaDonChiTietRepository.findAll(PageUtils.getPageable(page, pageSize));
+    public Page<HoaDonChiTiet> findAllHoaDonChiTietByHoaDon(String page, String pageSize, String hdid, String status) {
+        if (status != null && !status.equals("all")) {
+            return hoaDonChiTietRepository.findAllByHoaDonIdAndTrangThai(PageUtils.getPageable(page, pageSize), hdid, Boolean.parseBoolean(status));
+        }
+        return hoaDonChiTietRepository.findAllByHoaDonId(PageUtils.getPageable(page, pageSize), hdid);
     }
 
     public HoaDonChiTiet findById(String id) {
         return hoaDonChiTietRepository.findById(id).orElse(null);
-    }
-
-    public List<HoaDonChiTiet> findAllHoaDonChiTietByHoaDon(String id) {
-       return hoaDonChiTietRepository.findAllByHoaDonId(id);
     }
 
     public void create(HoaDonChiTiet hoaDonChiTiet) {
@@ -41,8 +42,7 @@ public class HoaDonChiTietService {
 
     public void decreaseQuantity(String idid) {
         HoaDonChiTiet hoaDonChiTiet = findById(idid);
-        if (hoaDonChiTiet != null)
-        {
+        if (hoaDonChiTiet != null) {
             hoaDonChiTiet.setSoLuong(hoaDonChiTiet.getSoLuong() + 1);
             hoaDonChiTietRepository.save(hoaDonChiTiet);
         }
@@ -50,8 +50,7 @@ public class HoaDonChiTietService {
 
     public void increaseQuantity(String idid) {
         HoaDonChiTiet hoaDonChiTiet = findById(idid);
-        if (hoaDonChiTiet != null)
-        {
+        if (hoaDonChiTiet != null) {
             hoaDonChiTiet.setSoLuong(hoaDonChiTiet.getSoLuong() - 1);
             hoaDonChiTietRepository.save(hoaDonChiTiet);
         }
@@ -64,8 +63,7 @@ public class HoaDonChiTietService {
     public void updateStatus(String idid) {
         HoaDonChiTiet hoaDonChiTiet = findById(idid);
 
-        if (hoaDonChiTiet != null)
-        {
+        if (hoaDonChiTiet != null) {
             hoaDonChiTiet.setTrangThai(!hoaDonChiTiet.getTrangThai());
         }
     }

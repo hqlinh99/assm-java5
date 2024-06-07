@@ -124,7 +124,7 @@
                                         </tr>
                                         </thead>
                                         <tbody class="fw-semibold text-gray-600">
-                                        <c:forEach items="${invoices}" var="invoice" varStatus="i">
+                                        <c:forEach items="${ePage.getContent()}" var="invoice" varStatus="i">
                                             <tr>
                                                 <td>
                                                     <div class="form-check form-check-sm form-check-custom form-check-solid">
@@ -132,7 +132,7 @@
                                                     </div>
                                                 </td>
                                                 <td class="pe-0">
-                                                    <span class="fw-bold">${invoice.id}</span>
+                                                    <span class="fw-bold">#${invoice.id.toString().substring(0,6).toUpperCase()}</span>
                                                 </td>
                                                 <td>
                                                     <div class="d-flex align-items-center">
@@ -160,7 +160,7 @@
                                                 <td class="text-end pe-0">
                                             <span class="fw-bold">
                                                     <fmt:formatDate value="${invoice.ngayMuaHang}"
-                                                                    pattern="dd-MM-yyyy"/>
+                                                                    pattern="dd-MM-YYYY"/>
                                             </span>
                                                 </td>
                                                 <td class="text-end pe-0" data-order="Scheduled">
@@ -214,7 +214,7 @@
         </div>
         <!--end::Content wrapper-->
     </c:if>
-    <jsp:include page="403.jsp" />
+    <jsp:include page="403.jsp"/>
     <!--begin::Footer-->
     <div id="kt_app_footer" class="app-footer">
         <!--begin::Footer container-->

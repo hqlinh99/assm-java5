@@ -12,6 +12,11 @@ import java.util.List;
 public interface IHoaDonRepository extends JpaRepository<HoaDon, String> {
     Page<HoaDon> findAllByTrangThai(Pageable pageable, boolean status);
 
-    @Query(value = "select * from orders e where e.ma_san_pham like %:key% or p.ten like %:key%", nativeQuery = true)
+    @Query(value = """
+            select e from invoices e 
+            where e.id like %:key% 
+            or e.khachHang.ten like %:key%
+            or e.nhanVien.ten like %:key%
+            """)
     List<HoaDon> findAllByKey(String key);
 }

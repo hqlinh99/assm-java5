@@ -51,7 +51,7 @@
                         <!--begin::Row-->
                         ${productDetails.size() == 0 ? "No product details!" : ""}
                         <div class="row g-5 gx-xl-10 mb-5 mb-xl-10">
-                            <c:forEach items="${productDetails}" var="pd">
+                            <c:forEach items="${ePage.getContent()}" var="pd">
                                 <!--begin::Col-->
                                 <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-md-5 mb-xl-10">
                                     <!--begin::Product card-->

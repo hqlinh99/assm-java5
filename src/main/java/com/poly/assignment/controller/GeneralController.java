@@ -4,14 +4,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.poly.assignment.entity.Auth;
 import com.poly.assignment.entity.SanPham;
 import com.poly.assignment.entity.SanPhamChiTiet;
-import com.poly.assignment.service.AuthService;
-import com.poly.assignment.service.GioHangService;
-import com.poly.assignment.service.SanPhamChiTietService;
-import com.poly.assignment.service.SanPhamService;
-import com.poly.assignment.util.PageUtils;
+import com.poly.assignment.repository.IKhachHangRepository;
+import com.poly.assignment.service.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,12 +25,15 @@ public class GeneralController {
 
     private final AuthService authService;
 
+    private final IKhachHangRepository khachHangRepository;
+
 
     @GetMapping
     public String index(@RequestParam(value = "page", required = false, defaultValue = "0") String page,
                         @RequestParam(value = "pageSize", required = false, defaultValue = "8") String pageSize,
                         Model model) {
         model.addAttribute("ePage", sanPhamService.findAll(page, pageSize, null));
+        gioHangService.findAll();
         model.addAttribute("cartService", gioHangService);
         return "/index.jsp";
     }
@@ -52,6 +51,14 @@ public class GeneralController {
 
         model.addAttribute("cartService", gioHangService);
         return "/product-details.jsp";
+    }
+
+    @GetMapping("/checkout")
+    public String addToCart(Model model) {
+        model.addAttribute("cartService", gioHangService);
+        model.addAttribute("customers", khachHangRepository.findAll());
+        model.addAttribute("nhanVien", authService.getCurrentUser());
+        return "/checkout.jsp";
     }
 
     @GetMapping("/login")

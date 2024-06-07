@@ -7,10 +7,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface INhanVienRepository extends JpaRepository<NhanVien, String> {
 
-    NhanVien findByTenDangNhap(String username);
+    Optional<NhanVien> findByTenDangNhap(String username);
 
     Page<NhanVien> findAllByTrangThai(Pageable pageable, boolean status);
 

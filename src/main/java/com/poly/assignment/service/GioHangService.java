@@ -1,16 +1,25 @@
 package com.poly.assignment.service;
 
 import com.poly.assignment.entity.GioHang;
+import com.poly.assignment.entity.SanPham;
+import com.poly.assignment.entity.SanPhamChiTiet;
+import com.poly.assignment.repository.ISanPhamChiTietRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class GioHangService {
 
+
     List<GioHang> gioHangList = new ArrayList<>();
+    private final SanPhamChiTietService sanPhamChiTietService;
+
 
     public List<GioHang> findAll() {
         return gioHangList;
@@ -28,11 +37,19 @@ public class GioHangService {
                 .findFirst().orElse(null);
     }
 
-    public void addToCart(GioHang gioHang) {
-        GioHang gioHangResult = findByProductDetailId(gioHang.getSanPhamChiTiet().getId());
+    public void addToCart(String pdid) {
+        SanPhamChiTiet sanPhamChiTiet = sanPhamChiTietService.findById(pdid);
+
+        GioHang gioHangResult = findByProductDetailId(sanPhamChiTiet.getId());
         if (gioHangResult != null) {
             gioHangResult.setQuantity(gioHangResult.getQuantity() + 1);
-        } else gioHangList.add(gioHang);
+        } else {
+            GioHang gioHang = new GioHang();
+            gioHang.setId(UUID.randomUUID().toString().substring(6));
+            gioHang.setSanPhamChiTiet(sanPhamChiTiet);
+            gioHang.setQuantity(1);
+            gioHangList.add(gioHang);
+        }
     }
 
     public void decreaseQuantityInCart(String cid) {

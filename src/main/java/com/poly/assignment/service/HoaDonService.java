@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -18,6 +19,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class HoaDonService {
 
     private final IHoaDonChiTietRepository hoaDonChiTietRepository;
@@ -42,8 +44,6 @@ public class HoaDonService {
     }
 
     public void create(HoaDon hoaDon) throws IOException {
-        hoaDon.setNhanVien(authService.getCurrentUser());
-        hoaDon.setTrangThai(true);
         HoaDon hoaDonResult = hoaDonRepository.save(hoaDon);
 
         gioHangService.gioHangList.forEach(i -> {
@@ -58,14 +58,11 @@ public class HoaDonService {
         });
     }
 
-//    public void update(HoaDon hoaDon) throws IOException {
-//        if (hoaDon.getId() != null) {
-//            String anh = fileUploadService.uploadFile(file);
-//            if (anh != null)
-//                hoaDon.setHinhAnh(anh);
-//            hoaDonRepository.save(hoaDon);
-//        }
-//    }
+    public void update(HoaDon hoaDon) throws IOException {
+        if (hoaDon.getId() != null) {
+            hoaDonRepository.save(hoaDon);
+        }
+    }
 
     public void delete(String id) {
         hoaDonRepository.deleteById(id);

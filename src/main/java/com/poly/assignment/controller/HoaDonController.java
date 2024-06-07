@@ -1,6 +1,10 @@
 package com.poly.assignment.controller;
 
 import com.poly.assignment.entity.HoaDon;
+import com.poly.assignment.repository.IKhachHangRepository;
+import com.poly.assignment.repository.INhanVienRepository;
+import com.poly.assignment.repository.ISanPhamChiTietRepository;
+import com.poly.assignment.service.HoaDonChiTietService;
 import com.poly.assignment.service.HoaDonService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +26,11 @@ import java.util.Map;
 public class HoaDonController {
 
     private final HoaDonService hoaDonService;
+    private final HoaDonChiTietService hoaDonChiTietService;
+    private final ISanPhamChiTietRepository sanPhamChiTietRepository;
+    private final IKhachHangRepository khachHangRepository;
+    private final INhanVienRepository nhanVienRepository;
+
 
     @GetMapping("/invoices/table")
     public String pTable(@ModelAttribute("hoaDon") HoaDon hoaDon,
@@ -56,27 +65,35 @@ public class HoaDonController {
                                 @RequestParam(value = "pageSize", required = false, defaultValue = "5") String pageSize,
                                 Model model) throws IOException {
         if (result.hasErrors()) {
-            model.addAttribute("ePage", hoaDonService.findAll(page, pageSize, null));
-            return "/invoices-table.jsp";
+            model.addAttribute("ePage", hoaDonChiTietService.findAllHoaDonChiTietByHoaDon(page, pageSize, id, null));
+            model.addAttribute("customers", khachHangRepository.findAll());
+            model.addAttribute("employees", nhanVienRepository.findAll());
+            model.addAttribute("productDetails", sanPhamChiTietRepository.findAll());
+            return "/invoice-update.jsp";
         }
 
         if (id != null && !id.isBlank()) {
-//            hoaDonService.update(hoaDon);
+            hoaDonService.update(hoaDon);
+            return "redirect:/invoices/update?id=" + id;
         } else {
             hoaDonService.create(hoaDon);
         }
-
         return "redirect:/invoices/table";
     }
 
     @GetMapping("/invoices/update")
     public String updateInvoice(@RequestParam("id") String id,
+                                @RequestParam(value = "status", required = false, defaultValue = "all") String status,
                                 @RequestParam(value = "page", required = false, defaultValue = "0") String page,
                                 @RequestParam(value = "pageSize", required = false, defaultValue = "5") String pageSize,
                                 Model model) {
         model.addAttribute("hoaDon", hoaDonService.findById(id));
-        model.addAttribute("ePage", hoaDonService.findAll(page, pageSize, null));
-        return "/invoices-table.jsp";
+        model.addAttribute("ePage", hoaDonChiTietService.findAllHoaDonChiTietByHoaDon(page, pageSize, id, status));
+        model.addAttribute("customers", khachHangRepository.findAll());
+        model.addAttribute("employees", nhanVienRepository.findAll());
+        model.addAttribute("productDetails", sanPhamChiTietRepository.findAll());
+        model.addAttribute("status", status);
+        return "/invoice-update.jsp";
     }
 
     @GetMapping("/invoices/delete")
