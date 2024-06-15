@@ -56,6 +56,7 @@ public class HoaDonService {
             hoaDonChiTiet.setTrangThai(true);
             hoaDonChiTietRepository.save(hoaDonChiTiet);
         });
+        gioHangService.deleteAll();
     }
 
     public void update(HoaDon hoaDon) throws IOException {

@@ -257,12 +257,6 @@
                                                      data-kt-menu="true">
                                                     <!--begin::Menu item-->
                                                     <div class="menu-item px-3">
-                                                        <a href="/kichThuoc-${kichThuoc.id}/details-table"
-                                                           class="menu-link px-3">Biến thể</a>
-                                                    </div>
-                                                    <!--end::Menu item-->
-                                                    <!--begin::Menu item-->
-                                                    <div class="menu-item px-3">
                                                         <a href="/sizes/update?pid=${kichThuoc.id}"
                                                            class="menu-link px-3">Sửa thông tin</a>
                                                     </div>
@@ -271,7 +265,7 @@
                                                     <div class="menu-item px-3">
                                                         <a href="/sizes/delete?pid=${kichThuoc.id}"
                                                            class="menu-link px-3"
-                                                           data-kt-ecommerce-kichThuoc-filter="delete_row">Xoá kích thước
+                                                           data-kt-ecommerce-kichThuoc-filter="delete_row">Xoá KT
                                                         </a>
                                                     </div>
                                                     <!--end::Menu item-->

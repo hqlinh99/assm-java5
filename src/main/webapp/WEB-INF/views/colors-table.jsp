@@ -258,12 +258,6 @@
                                                      data-kt-menu="true">
                                                     <!--begin::Menu item-->
                                                     <div class="menu-item px-3">
-                                                        <a href="/mauSac-${mauSac.id}/details-table"
-                                                           class="menu-link px-3">Biến thể</a>
-                                                    </div>
-                                                    <!--end::Menu item-->
-                                                    <!--begin::Menu item-->
-                                                    <div class="menu-item px-3">
                                                         <a href="/colors/update?pid=${mauSac.id}"
                                                            class="menu-link px-3">Sửa thông tin</a>
                                                     </div>
